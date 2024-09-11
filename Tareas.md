@@ -2,9 +2,9 @@
 ## Implementación de Clases Principales
 
 - [X] **Clase PCB** (Process Control Block)
-  - [ ] Guardar estados del proceso: nuevo, preparado, ejecución, en espera, finalizado
-  - [ ] Contador del programa (ubicación en memoria)
-  - [ ] Registros AC, AX, BX, CX, DX, .....
+  - [X] Guardar estados del proceso: nuevo, preparado, ejecución, en espera, finalizado
+  - [X] Contador del programa (ubicación en memoria)
+  - [X] Registros AC, AX, BX, CX, DX, .....
   - [ ] Información de la pila (tamaño de 5, manejo de desbordamiento)
   - [ ] Información contable:
     - [ ] CPU en ejecución
@@ -14,7 +14,7 @@
   - [ ] Enlace al siguiente PCB
   - [ ] Dirección de inicio (Base)
   - [ ] Tamaño del proceso (Alcance)
-  - [ ] Prioridad
+  - [X] Prioridad
 
 - [X] **Clase Process**
   - [ ] Manejar los estados del proceso
@@ -28,7 +28,7 @@
 
 - [X] **Clase CPU**
   - [ ] Simular un CPU con capacidad para ejecutar 5 tareas
-  - [ ] Registro IR para visualizar la instrucción en ejecución
+  - [X] Registro IR para visualizar la instrucción en ejecución
 
 - [ ] **Clase AsmLoader**
   - [ ] Cargar programas .asm desde disco
@@ -121,3 +121,54 @@
 - El sistema debe garantizar la seguridad y protección de los procesos en ejecución, con manejo adecuado de errores y desbordamientos.
 
 ## Flujo del Programa
+- [ ] **Cargar Programas en Memoria**
+  - [ ] Leer Archivos .asm: Leer uno o más archivos de programas en ensamblador (*.asm) desde el disco.
+  - [ ] **Crear Bloque de Control de Proceso (PCB) para Cada Programa**
+    - [ ] Asignar un Process ID (PID) único.
+    - [ ] Establecer la dirección base y el límite del segmento de memoria donde se almacenarán las instrucciones del programa.
+    - [ ] Inicializar el contador de programa (PC) con la dirección base del segmento de instrucciones del proceso.
+    - [ ] Inicializar otros registros (AC, AX, BX, CX, DX) y la información del stack (tamaño del stack = 5).
+    - [ ] Establecer la prioridad y otra información de contabilidad.
+  - [ ] **Cargar las Instrucciones y Datos del Programa en el Segmento de Usuario**
+    - [ ] Colocar las instrucciones en el segmento de código y los datos en el segmento de datos del proceso.
+  - [ ] **Añadir el PCB a la Cola de Procesos:** Insertar el PCB del nuevo proceso en la cola de procesos (por ejemplo, cola de procesos listos).
+
+- [ ] **Gestión de Procesos y Planificación (Scheduling)**
+  - [ ] **Algoritmo de Planificación FCFS (First-Come, First-Served)**
+    - [ ] Seleccionar el primer proceso de la cola de procesos listos para ser ejecutado.
+    - [ ] El proceso seleccionado cambia a estado Running.
+  - [ ] **Conmutación de Contexto (Context Switching)**
+    - [ ] Guardar el estado del proceso actual en su PCB cuando se pausa o bloquea.
+    - [ ] Cargar el estado del próximo proceso a ejecutar desde su PCB.
+
+- [ ] **Ejecución del Ciclo Fetch-Decode-Execute**
+  - [ ] **Modo de Ejecución Paso a Paso**
+    - [ ] En el Modo Paso a Paso, ejecutar las instrucciones una por una. El usuario presiona un botón "Siguiente" para ejecutar cada instrucción.
+    - [ ] Actualizar la interfaz gráfica (GUI) para mostrar el estado actual del PCB, los registros (IR, AC, PC), y la memoria.
+  - [ ] **Modo de Ejecución Automático**
+    - [ ] En el Modo Automático, ejecutar todas las instrucciones del proceso hasta que se complete o se bloquee por una interrupción o E/S.
+    - [ ] La interfaz gráfica muestra en tiempo real el estado de la memoria, los registros, y el PCB.
+
+- [ ] **Gestión de Interrupciones y E/S**
+  - [ ] **Interrupciones**
+    - [ ] Manejar diferentes tipos de interrupciones, como INT 10H para mostrar datos o INT 09H para entrada del teclado.
+    - [ ] Actualizar el estado del proceso a Waiting si está esperando por una operación de E/S.
+  - [ ] **Operaciones de E/S**
+    - [ ] Agregar solicitudes de E/S pendientes a la lista de solicitudes del proceso en su PCB.
+    - [ ] Después de completar la E/S, cambiar el estado del proceso de Waiting a Ready.
+
+- [ ] **Conmutación de Contexto y Continuación de la Ejecución**
+  - [ ] **Cuando se completa una operación de E/S o un proceso es bloqueado, se realiza una conmutación de contexto**
+    - [ ] Guardar el estado del proceso actual (por ejemplo, el valor del contador de programa (PC), registros, etc.) en su PCB.
+    - [ ] Seleccionar el siguiente proceso en la cola de Ready usando el algoritmo de planificación y cargar su estado desde su PCB.
+  - [ ] Reanudar la ejecución del siguiente proceso.
+
+- [ ] **Finalización del Proceso**
+  - [ ] **Ejecutar Instrucción HALT**
+    - [ ] Cuando un proceso ejecuta una instrucción HALT, cambia su estado a "Terminated".
+    - [ ] Liberar los recursos del proceso, incluyendo la memoria y el PCB.
+
+- [ ] **Visualización de Resultados y Estadísticas**
+  - [ ] **Mostrar Estadísticas**
+    - [ ] Mostrar estadísticas detalladas al finalizar, como el tiempo de inicio, tiempo de finalización, duración del proceso, tiempo de CPU utilizado, etc.
+    - [ ] La interfaz gráfica (GUI) muestra los resultados finales, incluyendo el estado de todos los procesos, el contenido de la memoria, los registros del CPU, y las estadísticas de rendimiento.
