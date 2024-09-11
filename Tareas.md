@@ -1,7 +1,7 @@
 # Tareas
 ## Implementación de Clases Principales
 
-- [ ] **Clase PCB** (Process Control Block)
+- [X] **Clase PCB** (Process Control Block)
   - [ ] Guardar estados del proceso: nuevo, preparado, ejecución, en espera, finalizado
   - [ ] Contador del programa (ubicación en memoria)
   - [ ] Registros AC, AX, BX, CX, DX, .....
@@ -16,17 +16,17 @@
   - [ ] Tamaño del proceso (Alcance)
   - [ ] Prioridad
 
-- [ ] **Clase Process**
+- [X] **Clase Process**
   - [ ] Manejar los estados del proceso
   - [ ] Asignar memoria a los procesos
 
-- [ ] **Clase Memory**
+- [X] **Clase Memory**
   - [ ] Definir secciones para los procesos a ejecutar y sus PCB
   - [ ] Manejo de memoria para almacenar los valores de cada PCB
   - [ ] Configuración de tamaño de memoria (por defecto 256 KB)
   - [ ] Implementar memoria virtual (por defecto 64 KB)
 
-- [ ] **Clase CPU**
+- [X] **Clase CPU**
   - [ ] Simular un CPU con capacidad para ejecutar 5 tareas
   - [ ] Registro IR para visualizar la instrucción en ejecución
 
@@ -36,7 +36,7 @@
   - [ ] Cargar múltiples archivos simultáneamente
   - [ ] Gestionar la asignación de programas en memoria
 
-- [ ] **Clase Instruction**
+- [X] **Clase Instruction**
   - [ ] Definir instrucciones para ejecución de procesos
   - [ ] Gestionar pesos de las instrucciones
 
