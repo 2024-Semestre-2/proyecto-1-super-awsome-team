@@ -26,21 +26,64 @@ public class UI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFileChooser1 = new javax.swing.JFileChooser();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItemOpenFile = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        javax.swing.JMenuItem jMenuItemConfig = new javax.swing.JMenuItem();
+
+        jFileChooser1.setFileFilter(new AsmFilter());
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jMenu3.setText("File");
+
+        jMenuItemOpenFile.setText("Open File");
+        jMenuItemOpenFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemOpenFileActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemOpenFile);
+
+        jMenuBar2.add(jMenu3);
+
+        jMenu4.setText("Edit");
+
+        jMenuItemConfig.setText("Config");
+        jMenuItemConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemConfigActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItemConfig);
+
+        jMenuBar2.add(jMenu4);
+
+        setJMenuBar(jMenuBar2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 937, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 599, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItemOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenFileActionPerformed
+        int returnVal = jFileChooser1.showOpenDialog(this);
+    }//GEN-LAST:event_jMenuItemOpenFileActionPerformed
+
+    private void jMenuItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfigActionPerformed
+        
+    }//GEN-LAST:event_jMenuItemConfigActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +121,10 @@ public class UI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFileChooser jFileChooser1;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItemOpenFile;
     // End of variables declaration//GEN-END:variables
 }

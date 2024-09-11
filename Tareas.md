@@ -1,7 +1,13 @@
 # Tareas
-- [ ] Clase PCB
-- [ ] Clase Process
-- [ ] Clase Memory
-- [ ] Clase CPU
+- [x] Clase PCB
+- [x] Clase Process
+- [x] Clase Memory
+- [x] Clase CPU
 - [ ] Clase AsmLoader
-- [ ] Clase Instruction
+- [x] Clase Instruction
+- [ ] Clase Dispatcher
+- [x] Clase ASMFilter
+- [x] Clase Expression
+- [x] Clase Kernel
+
+## Program Flow
