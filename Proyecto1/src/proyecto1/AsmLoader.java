@@ -88,28 +88,114 @@ public class AsmLoader {
             default:
                 throw new IllegalArgumentException("Invalid operation: " + operation + " on line: " + row);
         }
-        
+        String[] registers = {"AX", "BX", "CX", "DX"};
+        String[] interrupts = {"09H", "10H", "20H"};
         // Validate de operands
         if (operands != null) {
-            if (operands.length != expectedNumberOfOperands(operation)) {
-                throw new IllegalArgumentException("Invalid number of operands for " + operation + ": " + Arrays.toString(operands) + " on line: " + row);
+            // Syntactic validation
+            switch (operation.toUpperCase()) {
+                case "INC":
+                case "DEC":
+                case "PARAM":
+                    if (operands.length > expectedNumberOfOperands(operation)) {
+                        throw new IllegalArgumentException("Invalid number of operands for " + operation + ": " + Arrays.toString(operands) + " on line: " + row);
+                    }
+                    break;
+                default:
+                    if (operands.length != expectedNumberOfOperands(operation)) {
+                        throw new IllegalArgumentException("Invalid number of operands for " + operation + ": " + Arrays.toString(operands) + " on line: " + row);
+                    }  
             }
+            
+            switch (operation.toUpperCase()) {
+                case "LOAD":
+                case "STORE":
+                case "ADD":
+                case "SUB":
+                case "INC":
+                case "DEC":
+                case "PUSH":
+                case "POP":
+                    if (!Arrays.asList(registers).contains(operands[0])) {
+                        throw new IllegalArgumentException("Invalid argument " + operands[0] + " on line: " + row);
+                    }
+                    break;
+                case "SWAP":
+                case "CMP":
+                    for (int i = 0; i < operands.length; i++) {
+                        if (!Arrays.asList(registers).contains(operands[i])) {
+                            throw new IllegalArgumentException("Invalid argument " + operands[i] + " on line: " + row);
+                        }
+                    }
+                    break;
+                case "MOV":
+                    if (!Arrays.asList(registers).contains(operands[0])) {
+                        throw new IllegalArgumentException("Invalid argument " + operands[0] + " on line: " + row);
+                    }
+                    if (!isNumeric(operands[1]) || !Arrays.asList(registers).contains(operands[1])) {
+                        throw new IllegalArgumentException("Invalid argument " + operands[1] + " on line: " + row);
+                    }
+                    break;
+                case "INT":
+                    if (!Arrays.asList(interrupts).contains(operands[0])) {
+                        throw new IllegalArgumentException("Invalid argument " + operands[0] + " on line: " + row);
+                    }
+                    break;
+                case "JMP":
+                case "JE":
+                case "JNE":
+                    if (!isNumeric(operands[0])) {
+                        throw new IllegalArgumentException("Invalid argument " + operands[0] + " on line: " + row);
+                    }
+                    break;
+                case "PARAM":
+                    for (int i = 0; i < operands.length; i++) {
+                        if (!isNumeric(operands[i])) {
+                            throw new IllegalArgumentException("Invalid argument " + operands[i] + " on line: " + row);
+                        }
+                    }
+                    break;
+                default:
+            }
+            // Semantic validation
         }
-        
-        // If all validations pass, proceed to load the instruction into memory
     }
     
     private int expectedNumberOfOperands(String operation) {
         switch (operation.toUpperCase()) {
+            case "PARAM":
+                return 3;
             case "MOV":
+            case "SWAP":
+            case "CMP":
                 return 2;
             case "ADD":
             case "SUB":
             case "LOAD":
             case "STORE":
+            case "INC":
+            case "DEC":
+            case "INT":
+            case "JMP":
+            case "JE":
+            case "JNE":
+            case "PUSH":
+            case "POP":
                 return 1;
             default:
                 return 0;
         }
+    }
+    
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }

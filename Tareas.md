@@ -34,25 +34,23 @@
 
 - [ ] **Clase AsmLoader**
   - [ ] Cargar programas .asm desde disco
-  - [ ] Validar sintaxis de los archivos .asm
+  - [X] Validar sintaxis de los archivos .asm
     - [X] LOAD
     - [X] STORE
-    - [ ] MOV
+    - [X] MOV
     - [X] SUB
     - [X] ADD
-    - [ ] INC
-    - [ ] DEC
-    - [ ] SWAP
-    - [ ] INT 20H
-    - [ ] INT 10H
-    - [ ] INT 09H
-    - [ ] JMP
-    - [ ] CMP
-    - [ ] JE
-    - [ ] JNE
-    - [ ] PARAM
-    - [ ] PUSH
-    - [ ] POP
+    - [X] INC
+    - [X] DEC
+    - [X] SWAP
+    - [X] INT
+    - [X] JMP
+    - [X] CMP
+    - [X] JE
+    - [X] JNE
+    - [X] PARAM
+    - [X] PUSH
+    - [X] POP
   - [ ] Cargar múltiples archivos simultáneamente
   - [ ] Gestionar la asignación de programas en memoria
 
