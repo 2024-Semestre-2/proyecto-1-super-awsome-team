@@ -72,7 +72,8 @@ public class AsmLoader {
         }
         
         validateProcessInstruction(row, address, operation, operands);
-        
+        System.out.println(" Expresión [Línea: " + row + ", Dirección: " + address + ", Operación: " + operation + ", Operandos: " + Arrays.toString(operands) + "]");
+
         return new Expression(row, address, operation, operands);
     }
     

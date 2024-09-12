@@ -4,11 +4,16 @@
  */
 package proyecto1;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
-import org.json.JSONObject;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -85,17 +90,73 @@ public class UI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenFileActionPerformed
-        int returnVal = jFileChooser1.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            asmFiles = jFileChooser1.getSelectedFiles();
-            System.out.println(Arrays.toString(asmFiles));
+      int returnVal = jFileChooser1.showOpenDialog(this);
+      if (returnVal == JFileChooser.APPROVE_OPTION) {
+        //asmFiles = jFileChooser1.getSelectedFiles();
+        
+        // pruebas validaciones con archivo 
+        File file = jFileChooser1.getSelectedFile();
+        System.out.println(Arrays.toString(asmFiles));
+      
+        AsmLoader asmLoader = new AsmLoader();
+        List<Expression> expressions = asmLoader.loadFile(file.getAbsolutePath());
+        
+        if (expressions != null && !expressions.isEmpty()) {
+          System.out.println("File loaded successfully.");
+          for (Expression exp : expressions) {
+            System.out.println(exp);  // Imprime cada instrucción cargada
+          }
+        } 
+        else {
+          System.out.println("No valid instructions found in the file.");
         }
-        String myJson = new Scanner(new File(filename)).useDelimiter("\\Z").next();
-        JSONObject myJsonobject = new JSONObject(myJson);
+      } 
+      else {
+        System.out.println("File access cancelled by user.");
+      }
+
     }//GEN-LAST:event_jMenuItemOpenFileActionPerformed
 
+    /**
+     * Metodo encargado de dar funcionalidad en display de configuraciones 
+     * @param evt 
+     */
     private void jMenuItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfigActionPerformed
-        
+      System.out.println("Analizando Configuraciónes...");
+      // Configurar el filtro para solo permitir archivos .txt
+      jFileChooser1.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text Files", "txt"));
+      // Abrir el diálogo para seleccionar un archivo
+      int returnVal = jFileChooser1.showOpenDialog(this);
+      
+      if (returnVal == JFileChooser.APPROVE_OPTION) {
+        File file = jFileChooser1.getSelectedFile();
+        if (!file.getName().endsWith(".txt")) {
+                // Mostrar un cuadro de mensaje de advertencia
+                JOptionPane.showMessageDialog(null, "Por favor selecciona un archivo .txt", "Archivo inválido", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+          try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line = br.readLine(); // Leer la primera línea
+            if (line != null) {
+              // Separar los valores de memoria
+              String[] memorySizes = line.split(" ");
+                if (memorySizes.length == 2) {
+                  int mainMemorySize = Integer.parseInt(memorySizes[0]);  // Tamaño de la memoria principal
+                  int virtualMemorySize = Integer.parseInt(memorySizes[1]);  // Tamaño de la memoria virtual
+                    
+                  System.out.println("Memoria Principal: " + mainMemorySize);
+                  System.out.println("Memoria Virtual: " + virtualMemorySize);
+                } 
+                else {
+                  throw new IllegalArgumentException("Formato inválido. Se requieren dos números en la primera línea.");
+                }
+            }
+          } 
+          catch (IOException | NumberFormatException e) {
+            System.err.println("Error al leer el archivo de configuración: " + e.getMessage());
+          }
+        }
+      }
     }//GEN-LAST:event_jMenuItemConfigActionPerformed
 
     /**
