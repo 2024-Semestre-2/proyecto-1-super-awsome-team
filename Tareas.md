@@ -26,7 +26,7 @@
   - [ ] Configuración de tamaño de memoria (por defecto 256 KB)
   - [ ] Implementar memoria virtual (por defecto 64 KB)
 
-- [ ] **Clase Secondary Memory**
+- [X] **Clase Secondary Memory**
 
 - [X] **Clase CPU**
   - [ ] Simular un CPU con capacidad para ejecutar 5 tareas
