@@ -27,7 +27,7 @@ public class CPU {
         this.IR = null;
     }
     
-    public Instruction fetchInstruction(Memory memory) {
+    public Instruction fetchInstruction(MainMemory memory) {
         try {
             this.PC++;
             this.IR = memory.getInstruction(this.PC-1);
@@ -38,7 +38,7 @@ public class CPU {
         }
     }
     
-    public Instruction peekInstruction(Memory memory) {
+    public Instruction peekInstruction(MainMemory memory) {
         try {
             return memory.getInstruction(this.PC);
         } catch (IllegalArgumentException e) {

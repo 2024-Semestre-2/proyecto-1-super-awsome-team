@@ -14,13 +14,15 @@ import java.util.stream.Collectors;
  * @author someone
  */
 public class Kernel {
-    private Memory memory;
+    private MainMemory memory;
+    private SecondaryMemory sMemory;
     private CPU cpu;
     private int processCounter;
     
-    public Kernel(int memorySize, int userMemorySize, int osMemorySize) {
+    public Kernel(int memorySize, int sMemorySize, int userMemorySize, int osMemorySize) {
         this.cpu = new CPU();
-        this.memory = new Memory(memorySize, userMemorySize, osMemorySize);
+        this.memory = new MainMemory(memorySize, userMemorySize, osMemorySize);
+        this.sMemory = new SecondaryMemory(sMemorySize);
         this.processCounter = 0;
     }
     

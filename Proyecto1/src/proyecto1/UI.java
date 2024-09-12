@@ -4,6 +4,12 @@
  */
 package proyecto1;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.Scanner;
+import javax.swing.JFileChooser;
+import org.json.JSONObject;
+
 /**
  *
  * @author someone
@@ -33,7 +39,8 @@ public class UI extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         javax.swing.JMenuItem jMenuItemConfig = new javax.swing.JMenuItem();
 
-        jFileChooser1.setFileFilter(new AsmFilter());
+        jFileChooser1.setFileFilter(new proyecto1.AsmFilter());
+        jFileChooser1.setMultiSelectionEnabled(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,6 +86,12 @@ public class UI extends javax.swing.JFrame {
 
     private void jMenuItemOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenFileActionPerformed
         int returnVal = jFileChooser1.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            asmFiles = jFileChooser1.getSelectedFiles();
+            System.out.println(Arrays.toString(asmFiles));
+        }
+        String myJson = new Scanner(new File(filename)).useDelimiter("\\Z").next();
+        JSONObject myJsonobject = new JSONObject(myJson);
     }//GEN-LAST:event_jMenuItemOpenFileActionPerformed
 
     private void jMenuItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfigActionPerformed
@@ -119,6 +132,8 @@ public class UI extends javax.swing.JFrame {
             }
         });
     }
+    
+    private File[] asmFiles; 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser jFileChooser1;

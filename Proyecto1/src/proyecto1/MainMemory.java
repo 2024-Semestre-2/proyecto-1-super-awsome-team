@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  *
  * @author someone
  */
-public class Memory {
+public class MainMemory {
     private Object[] memoryArray; // Using Object to hold both instructions and data
     private int nextInstructionAddress; // User segment for instructions
     private int nextDataAddress; // Segment for data
@@ -22,7 +22,7 @@ public class Memory {
     private int dataAddressSize = 100;
     private int memorySize;
     
-    public Memory(int size, int user, int os) {
+    public MainMemory(int size, int user, int os) {
         this.memorySize = size;
         this.instructionAddresSize = user;
         this.dataAddressSize = user + os;

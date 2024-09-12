@@ -7,6 +7,7 @@
         <Property name="fileFilter" type="javax.swing.filechooser.FileFilter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="new proyecto1.AsmFilter()" type="code"/>
         </Property>
+        <Property name="multiSelectionEnabled" type="boolean" value="true"/>
       </Properties>
     </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar2">
