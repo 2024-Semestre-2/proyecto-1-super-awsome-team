@@ -20,11 +20,13 @@
   - [ ] Manejar los estados del proceso
   - [ ] Asignar memoria a los procesos
 
-- [X] **Clase Memory**
+- [X] **Clase Main Memory**
   - [ ] Definir secciones para los procesos a ejecutar y sus PCB
   - [ ] Manejo de memoria para almacenar los valores de cada PCB
   - [ ] Configuración de tamaño de memoria (por defecto 256 KB)
   - [ ] Implementar memoria virtual (por defecto 64 KB)
+
+- [ ] **Clase Secondary Memory**
 
 - [X] **Clase CPU**
   - [ ] Simular un CPU con capacidad para ejecutar 5 tareas
@@ -33,6 +35,24 @@
 - [ ] **Clase AsmLoader**
   - [ ] Cargar programas .asm desde disco
   - [ ] Validar sintaxis de los archivos .asm
+    - [X] LOAD
+    - [X] STORE
+    - [ ] MOV
+    - [X] SUB
+    - [X] ADD
+    - [ ] INC
+    - [ ] DEC
+    - [ ] SWAP
+    - [ ] INT 20H
+    - [ ] INT 10H
+    - [ ] INT 09H
+    - [ ] JMP
+    - [ ] CMP
+    - [ ] JE
+    - [ ] JNE
+    - [ ] PARAM
+    - [ ] PUSH
+    - [ ] POP
   - [ ] Cargar múltiples archivos simultáneamente
   - [ ] Gestionar la asignación de programas en memoria
 
