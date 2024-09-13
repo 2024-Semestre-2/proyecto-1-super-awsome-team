@@ -1,10 +1,11 @@
 # Tareas
 ## Implementación de Clases Principales
 
-- [X] **Clase PCB** (Process Control Block)
-  - [X] Guardar estados del proceso: nuevo, preparado, ejecución, en espera, finalizado
-  - [X] Contador del programa (ubicación en memoria)
-  - [X] Registros AC, AX, BX, CX, DX, .....
+- [x] **Clase PCB** (Process Control Block)
+  - [x] Guardar estados del proceso: nuevo, preparado, ejecución, en espera, finalizado
+  - [x] Contador del programa (ubicación en memoria)
+  - [x] Registros AC, AX, BX, CX, DX, .....
+  - [x] Asignar memoria a los procesos
   - [ ] Información de la pila (tamaño de 5, manejo de desbordamiento)
   - [ ] Información contable:
     - [ ] CPU en ejecución
@@ -12,49 +13,45 @@
     - [ ] Tiempo empleado
   - [ ] Información de E/S (lista de archivos abiertos)
   - [ ] Enlace al siguiente PCB
-  - [ ] Dirección de inicio (Base)
+  - [x] Dirección de inicio (Base)
   - [ ] Tamaño del proceso (Alcance)
-  - [X] Prioridad
+  - [x] Prioridad
 
-- [X] **Clase Process**
-  - [ ] Manejar los estados del proceso
-  - [ ] Asignar memoria a los procesos
-
-- [X] **Clase Main Memory**
+- [x] **Clase Main Memory**
   - [ ] Definir secciones para los procesos a ejecutar y sus PCB
   - [ ] Manejo de memoria para almacenar los valores de cada PCB
   - [ ] Configuración de tamaño de memoria (por defecto 256 KB)
   - [ ] Implementar memoria virtual (por defecto 64 KB)
 
-- [X] **Clase Secondary Memory**
+- [x] **Clase Secondary Memory**
 
-- [X] **Clase CPU**
+- [x] **Clase CPU**
   - [ ] Simular un CPU con capacidad para ejecutar 5 tareas
-  - [X] Registro IR para visualizar la instrucción en ejecución
+  - [x] Registro IR para visualizar la instrucción en ejecución
 
 - [ ] **Clase AsmLoader**
   - [ ] Cargar programas .asm desde disco
-  - [X] Validar sintaxis de los archivos .asm
-    - [X] LOAD
-    - [X] STORE
-    - [X] MOV
-    - [X] SUB
-    - [X] ADD
-    - [X] INC
-    - [X] DEC
-    - [X] SWAP
-    - [X] INT
-    - [X] JMP
-    - [X] CMP
-    - [X] JE
-    - [X] JNE
-    - [X] PARAM
-    - [X] PUSH
-    - [X] POP
+  - [x] Validar sintaxis de los archivos .asm
+    - [x] LOAD
+    - [x] STORE
+    - [x] MOV
+    - [x] SUB
+    - [x] ADD
+    - [x] INC
+    - [x] DEC
+    - [x] SWAP
+    - [x] INT
+    - [x] JMP
+    - [x] CMP
+    - [x] JE
+    - [x] JNE
+    - [x] PARAM
+    - [x] PUSH
+    - [x] POP
   - [ ] Cargar múltiples archivos simultáneamente
   - [ ] Gestionar la asignación de programas en memoria
 
-- [X] **Clase Instruction**
+- [x] **Clase Instruction**
   - [ ] Definir instrucciones para ejecución de procesos
   - [ ] Gestionar pesos de las instrucciones
 
@@ -139,8 +136,8 @@
 - El sistema debe garantizar la seguridad y protección de los procesos en ejecución, con manejo adecuado de errores y desbordamientos.
 
 ## Flujo del Programa
-- [ ] **Cargar Programas en Memoria**
-  - [ ] Leer Archivos .asm: Leer uno o más archivos de programas en ensamblador (*.asm) desde el disco.
+- [x] **Cargar Programas en Memoria**
+  - [x] Leer Archivos .asm: Leer uno o más archivos de programas en ensamblador (*.asm) desde el disco.
   - [ ] **Crear Bloque de Control de Proceso (PCB) para Cada Programa**
     - [ ] Asignar un Process ID (PID) único.
     - [ ] Establecer la dirección base y el límite del segmento de memoria donde se almacenarán las instrucciones del programa.

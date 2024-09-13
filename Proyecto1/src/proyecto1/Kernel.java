@@ -4,6 +4,7 @@
  */
 package proyecto1;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -19,11 +20,29 @@ public class Kernel {
     private CPU cpu;
     private int processCounter;
     
-    public Kernel(int memorySize, int sMemorySize, int userMemorySize, int osMemorySize) {
+    public Kernel(Config config) {
         this.cpu = new CPU();
-        this.memory = new MainMemory(memorySize, userMemorySize, osMemorySize);
-        this.sMemory = new SecondaryMemory(sMemorySize);
+        this.memory = new MainMemory(config.mainMemorySize, config.userSegmentSize, config.osSegmentSize);
+        this.sMemory = new SecondaryMemory(config.secondaryMemorySize, config.virtualMemorySize);
         this.processCounter = 0;
+    }
+    
+    public void load(File[] files) {
+        System.out.println(this.memory.malloc(5));
+        for (int i = 0; i < files.length; i++) {
+            //this.sMemory.store(files[i]);
+            AsmLoader loader = new AsmLoader();
+            List<Expression> list = loader.loadFile(files[i].getAbsolutePath());
+            
+            // Memory allocation
+            int codeAddress = this.memory.malloc(list.size());
+            int stackAddress = this.memory.malloc(5);
+            
+            this.memory.loadInstructionsAt(codeAddress, list.size(), list);
+            
+            // Process creation
+            new PCB(this.processCounter, codeAddress, list.size());
+        }
     }
     
     public void loadMemory(List<Expression> instructions) {
@@ -74,7 +93,7 @@ public class Kernel {
     }
     
     public void newProcess() {
-        this.memory.loadProcess(new PCB(this.processCounter, "new", this.ax(), this.bx(), this.cx(), this.dx(), this.ac(), this.pc(), this.cpu.ir(), 1));
+        //this.memory.loadProcess(new PCB(this.processCounter, this.ax(), this.bx(), this.cx(), this.dx(), this.ac(), this.pc(), this.cpu.ir(), 1));
         this.processCounter++;
     }
     

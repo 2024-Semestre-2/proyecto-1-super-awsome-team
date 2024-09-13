@@ -8,9 +8,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
@@ -25,6 +29,16 @@ public class UI extends javax.swing.JFrame {
      */
     public UI() {
         initComponents();
+        
+        try {
+            // Startup
+            this.config = new Config("config.txt");
+            System.out.println(config.toString());
+        } catch (Exception ex) {
+            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.kernel = new Kernel(this.config);
     }
 
     /**
@@ -94,23 +108,13 @@ public class UI extends javax.swing.JFrame {
     private void jMenuItemOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenFileActionPerformed
       int returnVal = jFileChooserAsm.showOpenDialog(this);
       if (returnVal == JFileChooser.APPROVE_OPTION) {
-        //asmFiles = jFileChooser1.getSelectedFiles();
-        
-        // pruebas validaciones con archivo 
-        File file = jFileChooserAsm.getSelectedFile();
-        System.out.println(Arrays.toString(asmFiles));
-      
-        AsmLoader asmLoader = new AsmLoader();
-        List<Expression> expressions = asmLoader.loadFile(file.getAbsolutePath());
-        
-        if (expressions != null && !expressions.isEmpty()) {
-          System.out.println("File loaded successfully.");
-          for (Expression exp : expressions) {
-            System.out.println(exp);  // Imprime cada instrucción cargada
-          }
-        } 
-        else {
-          System.out.println("No valid instructions found in the file.");
+        File[] files = jFileChooserAsm.getSelectedFiles();
+        try {
+            this.kernel.load(files);
+            
+        }
+        catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog", JOptionPane.ERROR_MESSAGE);
         }
       } 
       else {
@@ -135,32 +139,12 @@ public class UI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Por favor selecciona un archivo .txt", "Archivo inválido", JOptionPane.ERROR_MESSAGE);
         }
         else {
-          try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line = br.readLine(); // Leer la primera línea
-            if (line != null) {
-              // Separar los valores de memoria
-              String[] memorySizes = line.split(" ");
-                if (memorySizes.length == 3) {
-                  int mainMemorySize = Integer.parseInt(memorySizes[0]);  // Tamaño de la memoria principal
-                  int secondaryMemorySize = Integer.parseInt(memorySizes[1]);  // Tamaño de la memoria principal
-                  int virtualMemorySize = Integer.parseInt(memorySizes[2]);  // Tamaño de la memoria virtual
-                    
-                  //System.out.println("Memoria Principal: " + mainMemorySize);
-                  //System.out.println("Memoria Secundaria: " + secondaryMemorySize);
-                  //System.out.println("Memoria Virtual: " + virtualMemorySize);
-                  
-                  Config config = new Config(mainMemorySize, secondaryMemorySize, virtualMemorySize);
-                  
-                  System.out.println(config.toString());
-                } 
-                else {
-                  throw new IllegalArgumentException("Formato inválido. Se requieren dos números en la primera línea.");
-                }
+            try {
+                this.config = new Config(file.getAbsolutePath());
+                System.out.println(config.toString());
+            } catch (Exception ex) {
+                Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
             }
-          } 
-          catch (IOException | NumberFormatException e) {
-            System.err.println("Error al leer el archivo de configuración: " + e.getMessage());
-          }
         }
       }
     }//GEN-LAST:event_jMenuItemConfigActionPerformed
@@ -200,7 +184,8 @@ public class UI extends javax.swing.JFrame {
         });
     }
     
-    private File[] asmFiles; 
+    private Kernel kernel;
+    private Config config;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser jFileChooserAsm;

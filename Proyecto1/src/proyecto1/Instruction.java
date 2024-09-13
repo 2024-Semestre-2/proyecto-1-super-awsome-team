@@ -16,10 +16,20 @@ public class Instruction {
     String[] operands;
     int memoryAddress;
     
+    public Instruction(String opcode, String operation, String[] operands) {
+        this.opcode = opcode;
+        this.operation = operation;
+        this.operands = operands;
+    }
+    
     public Instruction(String opcode, String operation, String[] operands, int memoryAddress) {
         this.opcode = opcode;
         this.operation = operation;
         this.operands = operands;
+        this.memoryAddress = memoryAddress;
+    }
+    
+    public void setAddress(int memoryAddress){
         this.memoryAddress = memoryAddress;
     }
     
