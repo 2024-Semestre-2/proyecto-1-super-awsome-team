@@ -140,12 +140,18 @@ public class UI extends javax.swing.JFrame {
             if (line != null) {
               // Separar los valores de memoria
               String[] memorySizes = line.split(" ");
-                if (memorySizes.length == 2) {
+                if (memorySizes.length == 3) {
                   int mainMemorySize = Integer.parseInt(memorySizes[0]);  // Tamaño de la memoria principal
-                  int virtualMemorySize = Integer.parseInt(memorySizes[1]);  // Tamaño de la memoria virtual
+                  int secondaryMemorySize = Integer.parseInt(memorySizes[1]);  // Tamaño de la memoria principal
+                  int virtualMemorySize = Integer.parseInt(memorySizes[2]);  // Tamaño de la memoria virtual
                     
-                  System.out.println("Memoria Principal: " + mainMemorySize);
-                  System.out.println("Memoria Virtual: " + virtualMemorySize);
+                  //System.out.println("Memoria Principal: " + mainMemorySize);
+                  //System.out.println("Memoria Secundaria: " + secondaryMemorySize);
+                  //System.out.println("Memoria Virtual: " + virtualMemorySize);
+                  
+                  Config config = new Config(mainMemorySize, secondaryMemorySize, virtualMemorySize);
+                  
+                  System.out.println(config.toString());
                 } 
                 else {
                   throw new IllegalArgumentException("Formato inválido. Se requieren dos números en la primera línea.");
