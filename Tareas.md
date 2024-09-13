@@ -139,13 +139,14 @@
 - [x] **Cargar Programas en Memoria**
   - [x] Leer Archivos .asm: Leer uno o más archivos de programas en ensamblador (*.asm) desde el disco.
   - [ ] **Crear Bloque de Control de Proceso (PCB) para Cada Programa**
-    - [ ] Asignar un Process ID (PID) único.
-    - [ ] Establecer la dirección base y el límite del segmento de memoria donde se almacenarán las instrucciones del programa.
+    - [x] Asignar un Process ID (PID) único.
+    - [x] Establecer la dirección base y el límite del segmento de memoria donde se almacenarán las instrucciones del programa.
     - [ ] Inicializar el contador de programa (PC) con la dirección base del segmento de instrucciones del proceso.
     - [ ] Inicializar otros registros (AC, AX, BX, CX, DX) y la información del stack (tamaño del stack = 5).
     - [ ] Establecer la prioridad y otra información de contabilidad.
   - [ ] **Cargar las Instrucciones y Datos del Programa en el Segmento de Usuario**
-    - [ ] Colocar las instrucciones en el segmento de código y los datos en el segmento de datos del proceso.
+    - [x] Colocar las instrucciones en el segmento de código. 
+    - [ ] Colocar los datos en el segmento de datos del proceso.
   - [ ] **Añadir el PCB a la Cola de Procesos:** Insertar el PCB del nuevo proceso en la cola de procesos (por ejemplo, cola de procesos listos).
 
 - [ ] **Gestión de Procesos y Planificación (Scheduling)**
