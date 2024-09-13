@@ -10,7 +10,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -37,15 +36,18 @@ public class UI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFileChooser1 = new javax.swing.JFileChooser();
+        jFileChooserAsm = new javax.swing.JFileChooser();
+        jFileChooserConfig = new javax.swing.JFileChooser();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemOpenFile = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         javax.swing.JMenuItem jMenuItemConfig = new javax.swing.JMenuItem();
 
-        jFileChooser1.setFileFilter(new proyecto1.AsmFilter());
-        jFileChooser1.setMultiSelectionEnabled(true);
+        jFileChooserAsm.setFileFilter(new proyecto1.AsmFilter());
+        jFileChooserAsm.setMultiSelectionEnabled(true);
+
+        jFileChooserConfig.setFileFilter(new proyecto1.TxtFilter());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,12 +92,12 @@ public class UI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenFileActionPerformed
-      int returnVal = jFileChooser1.showOpenDialog(this);
+      int returnVal = jFileChooserAsm.showOpenDialog(this);
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         //asmFiles = jFileChooser1.getSelectedFiles();
         
         // pruebas validaciones con archivo 
-        File file = jFileChooser1.getSelectedFile();
+        File file = jFileChooserAsm.getSelectedFile();
         System.out.println(Arrays.toString(asmFiles));
       
         AsmLoader asmLoader = new AsmLoader();
@@ -123,13 +125,11 @@ public class UI extends javax.swing.JFrame {
      */
     private void jMenuItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfigActionPerformed
       System.out.println("Analizando Configuraciónes...");
-      // Configurar el filtro para solo permitir archivos .txt
-      jFileChooser1.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Text Files", "txt"));
       // Abrir el diálogo para seleccionar un archivo
-      int returnVal = jFileChooser1.showOpenDialog(this);
+      int returnVal = jFileChooserConfig.showOpenDialog(this);
       
       if (returnVal == JFileChooser.APPROVE_OPTION) {
-        File file = jFileChooser1.getSelectedFile();
+        File file = jFileChooserConfig.getSelectedFile();
         if (!file.getName().endsWith(".txt")) {
                 // Mostrar un cuadro de mensaje de advertencia
                 JOptionPane.showMessageDialog(null, "Por favor selecciona un archivo .txt", "Archivo inválido", JOptionPane.ERROR_MESSAGE);
@@ -197,7 +197,8 @@ public class UI extends javax.swing.JFrame {
     private File[] asmFiles; 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFileChooser jFileChooser1;
+    private javax.swing.JFileChooser jFileChooserAsm;
+    private javax.swing.JFileChooser jFileChooserConfig;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar2;

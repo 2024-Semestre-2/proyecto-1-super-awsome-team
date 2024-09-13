@@ -51,9 +51,6 @@ public class AsmLoader {
         
         // Split the line into its components 
         String[] parts = line.split(" ");
-        if (parts.length < 2) {
-            throw new IllegalArgumentException("Invalid instruction format: " + line + " on line: " + row);
-        }
         
         String address = null;
         String operation;
@@ -80,11 +77,22 @@ public class AsmLoader {
     private void validateProcessInstruction(int row, String address, String operation, String[] operands) {
         // Validate the operation
         switch (operation.toUpperCase()) {
+            case "PARAM":
+            case "MOV":
+            case "SWAP":
+            case "CMP":
+            case "ADD":
+            case "SUB":
             case "LOAD":
             case "STORE":
-            case "MOV":
-            case "SUB":
-            case "ADD":
+            case "INC":
+            case "DEC":
+            case "INT":
+            case "JMP":
+            case "JE":
+            case "JNE":
+            case "PUSH":
+            case "POP":
                 break;
             default:
                 throw new IllegalArgumentException("Invalid operation: " + operation + " on line: " + row);
@@ -92,7 +100,7 @@ public class AsmLoader {
         String[] registers = {"AX", "BX", "CX", "DX"};
         String[] interrupts = {"09H", "10H", "20H"};
         // Validate de operands
-        if (operands != null) {
+        if (operands != null && operands.length > 0) {
             // Syntactic validation
             switch (operation.toUpperCase()) {
                 case "INC":
@@ -133,7 +141,8 @@ public class AsmLoader {
                     if (!Arrays.asList(registers).contains(operands[0])) {
                         throw new IllegalArgumentException("Invalid argument " + operands[0] + " on line: " + row);
                     }
-                    if (!isNumeric(operands[1]) || !Arrays.asList(registers).contains(operands[1])) {
+                    if (isNumeric(operands[1]) || Arrays.asList(registers).contains(operands[1])) {
+                    } else {
                         throw new IllegalArgumentException("Invalid argument " + operands[1] + " on line: " + row);
                     }
                     break;
