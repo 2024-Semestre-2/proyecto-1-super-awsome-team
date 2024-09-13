@@ -57,6 +57,11 @@ public class PCB {
         this.priority = priority;
     }
     
+    public void setStack(int stackSegmentIndex, int stackSegmentSize) {
+        this.stackSegmentIndex = stackSegmentIndex;
+        this.stackSegmentSize = stackSegmentSize;
+    }
+    
     public void updateState(String state) {
         this.state = state;
     }

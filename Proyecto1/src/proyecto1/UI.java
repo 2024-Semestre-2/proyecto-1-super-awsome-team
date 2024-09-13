@@ -110,8 +110,11 @@ public class UI extends javax.swing.JFrame {
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         File[] files = jFileChooserAsm.getSelectedFiles();
         try {
+            // Load to memory
             this.kernel.load(files);
+            // Scheduler
             
+            // Dispatcher
         }
         catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog", JOptionPane.ERROR_MESSAGE);

@@ -30,18 +30,23 @@ public class Kernel {
     public void load(File[] files) {
         System.out.println(this.memory.malloc(5));
         for (int i = 0; i < files.length; i++) {
-            //this.sMemory.store(files[i]);
             AsmLoader loader = new AsmLoader();
             List<Expression> list = loader.loadFile(files[i].getAbsolutePath());
             
             // Memory allocation
             int codeAddress = this.memory.malloc(list.size());
             int stackAddress = this.memory.malloc(5);
+            // Missing data segment memory allocation
             
+            // Load Memory
             this.memory.loadInstructionsAt(codeAddress, list.size(), list);
             
+            
             // Process creation
-            new PCB(this.processCounter, codeAddress, list.size());
+            PCB newPCB = new PCB(this.processCounter, codeAddress, list.size());
+            newPCB.setStack(stackAddress, 5);
+            
+            this.processCounter++;
         }
     }
     
