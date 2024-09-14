@@ -20,6 +20,7 @@ public class Kernel {
     private CPU cpu;
     private int processCounter;
     
+    
     public Kernel(Config config) {
         this.cpu = new CPU();
         this.memory = new MainMemory(config.mainMemorySize, config.userSegmentSize, config.osSegmentSize);
@@ -27,27 +28,30 @@ public class Kernel {
         this.processCounter = 0;
     }
     
-    public void load(File[] files) {
-        System.out.println(this.memory.malloc(5));
-        for (int i = 0; i < files.length; i++) {
+    public void load(File[] files) {                                
+        for (File file : files) { //(int i = 0; i < files.length; i++)
+                       
             AsmLoader loader = new AsmLoader();
-            List<Expression> list = loader.loadFile(files[i].getAbsolutePath());
+            List<Expression> list = loader.loadFile(file.getAbsolutePath());//List<Expression> list = loader.loadFile(files[i].getAbsolutePath());
             
             // Memory allocation
             int codeAddress = this.memory.malloc(list.size());
             int stackAddress = this.memory.malloc(5);
-            // Missing data segment memory allocation
-            
+                  
             // Load Memory
             this.memory.loadInstructionsAt(codeAddress, list.size(), list);
-            
             
             // Process creation
             PCB newPCB = new PCB(this.processCounter, codeAddress, list.size());
             newPCB.setStack(stackAddress, 5);
             
+            // Store file data in secondary memory and update index.
+            this.sMemory.store(file.getName(), list);
+            
+            
             this.processCounter++;
         }
+        this.sMemory.printFileIndex();
     }
     
     public void loadMemory(List<Expression> instructions) {
@@ -102,6 +106,10 @@ public class Kernel {
         this.processCounter++;
     }
     
+   
+    public int proccesOn() {
+      return this.processCounter; 
+    }
     public void updateProcess() {
         this.memory.updateProcess("ready");
     }

@@ -22,6 +22,7 @@ public class MainMemory {
     private int osSegmentSize;
     private int memorySize;
     
+    
     public MainMemory(int size, int user, int os) {
         this.memorySize = size;
         this.userSegmentSize = user;
@@ -88,6 +89,13 @@ public class MainMemory {
         }
     }
     
+    public void freeMemory(int address, int size) {
+      for (int i = address; i < address + size; i++) {
+        memoryArray[i] = null;
+      }
+      System.out.println("Memory freed from address " + address + " to " + (address + size));
+    }
+
     public List<String> getMemoryArray() {
         return Arrays.asList(this.memoryArray).stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
     }

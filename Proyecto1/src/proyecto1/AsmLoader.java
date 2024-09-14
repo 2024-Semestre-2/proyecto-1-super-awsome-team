@@ -16,7 +16,7 @@ import java.util.List;
  * @author someone
  */
 public class AsmLoader {
-    public List<Expression> loadFile(String filepath) {
+    public List<Expression> loadFile(String filepath) { 
         List<Expression> list = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             String line;
@@ -27,10 +27,11 @@ public class AsmLoader {
                     Expression instruction = parseLine(count, line);
                     if (instruction != null) {
                         list.add(instruction);
-                    }
+                    }     
                 } catch (IllegalArgumentException e) {
                     throw e;
                 }
+                
             }
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
@@ -69,8 +70,7 @@ public class AsmLoader {
         }
         
         validateProcessInstruction(row, address, operation, operands);
-        System.out.println(" Expresión [Línea: " + row + ", Dirección: " + address + ", Operación: " + operation + ", Operandos: " + Arrays.toString(operands) + "]");
-
+        //System.out.println(" Expresión [Línea: " + row + ", Dirección: " + address + ", Operación: " + operation + ", Operandos: " + Arrays.toString(operands) + "]");
         return new Expression(row, address, operation, operands);
     }
     

@@ -37,7 +37,7 @@ public class Config {
                     int mainMemorySize = Integer.parseInt(memorySizes[0]);  // Tamaño de la memoria principal
                     int secondaryMemorySize = Integer.parseInt(memorySizes[1]);  // Tamaño de la memoria principal
                     int virtualMemorySize = Integer.parseInt(memorySizes[2]);  // Tamaño de la memoria virtual
-                    
+           
                     this.mainMemorySize = mainMemorySize;
                     this.secondaryMemorySize = secondaryMemorySize;
                     this.virtualMemorySize = virtualMemorySize;
@@ -45,7 +45,7 @@ public class Config {
                     this.osSegmentSize = 100;
                 } 
                 else {
-                    throw new IllegalArgumentException("Formato inválido. Se requieren dos números en la primera línea.");
+                    throw new IllegalArgumentException("ERROR: Config file must contain exactly three integer values on the first line.");
                 }
             }
         }

@@ -32,6 +32,7 @@ public class UI extends javax.swing.JFrame {
         
         try {
             // Startup
+            System.out.println("Default settings: ");
             this.config = new Config("config.txt");
             System.out.println(config.toString());
         } catch (Exception ex) {
@@ -131,24 +132,27 @@ public class UI extends javax.swing.JFrame {
      * @param evt 
      */
     private void jMenuItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfigActionPerformed
-      System.out.println("Analizando Configuraciónes...");
-      // Abrir el diálogo para seleccionar un archivo
-      int returnVal = jFileChooserConfig.showOpenDialog(this);
-      
+      System.out.println("\n...Loading new settings...");
+      int returnVal = jFileChooserConfig.showOpenDialog(this);  
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         File file = jFileChooserConfig.getSelectedFile();
         if (!file.getName().endsWith(".txt")) {
-                // Mostrar un cuadro de mensaje de advertencia
-                JOptionPane.showMessageDialog(null, "Por favor selecciona un archivo .txt", "Archivo inválido", JOptionPane.ERROR_MESSAGE);
-        }
+          JOptionPane.showMessageDialog(null, "ERROR: Invalid Format", "Inavlid Format", JOptionPane.ERROR_MESSAGE);
+        }   
         else {
-            try {
-                this.config = new Config(file.getAbsolutePath());
-                System.out.println(config.toString());
-            } catch (Exception ex) {
-                Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+          try {
+            this.config = new Config(file.getName());
+            System.out.println("  -Update Memory size-\n");
+            System.out.println(config);  
+            this.kernel = new Kernel(config);          
+          }        
+          catch (Exception ex) {
+            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+          }                    
         }
+      }
+      else {
+          System.out.println("File access cancelled by user.");
       }
     }//GEN-LAST:event_jMenuItemConfigActionPerformed
 
