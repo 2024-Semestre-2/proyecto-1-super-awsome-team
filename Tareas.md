@@ -73,9 +73,9 @@
 
 ## Unidades de Almacenamiento
 
-- [ ] **Unidad de Almacenamiento Principal**
-  - [ ] Configurable con un valor por defecto de 512 KB
-  - [ ] Manejo de memoria virtual (64 KB por defecto)
+- [X] **Unidad de Almacenamiento Principal**
+  - [X] Configurable con un valor por defecto de 512 KB
+  - [X] Manejo de memoria virtual (64 KB por defecto)
 
 - [ ] **Unidad de Almacenamiento Secundaria**
   - [ ] Simular almacenamiento en disco para programas
@@ -95,8 +95,8 @@
 
 ## Configuración y Manejo de Memoria
 
-- [ ] Permitir configuración de tamaños de memoria principal y secundaria a través de archivos de configuración
-- [ ] Validar y cargar configuraciones al iniciar el sistema
+- [X] Permitir configuración de tamaños de memoria principal y secundaria a través de archivos de configuración
+- [X] Validar y cargar configuraciones al iniciar el sistema
 - [ ] Manejar errores de desbordamiento en la pila y memoria
 - [ ] Implementar protección y seguridad en el manejo de procesos
 
@@ -123,10 +123,10 @@
 
 ## Menú de Configuración
 
-- [ ] Incluir un menú o medio de configuración que permita:
-  - [ ] Ajustar el tamaño de la memoria principal
-  - [ ] Ajustar el tamaño de la memoria virtual
-  - [ ] Elegir el tipo de archivo para la configuración (texto, JSON, XML)
+- [X] Incluir un menú o medio de configuración que permita:
+  - [X] Ajustar el tamaño de la memoria principal
+  - [X] Ajustar el tamaño de la memoria virtual
+  - [X] Tipo de archivo para la configuración (texto)
 
 # Consideraciones
 
