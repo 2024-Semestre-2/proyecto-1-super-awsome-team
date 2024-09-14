@@ -9,8 +9,8 @@
   - [ ] Información de la pila (tamaño de 5, manejo de desbordamiento)
   - [ ] Información contable:
     - [ ] CPU en ejecución
-    - [ ] Tiempo de inicio
-    - [ ] Tiempo empleado
+    - [x] Tiempo de inicio
+    - [x] Tiempo empleado
   - [ ] Información de E/S (lista de archivos abiertos)
   - [ ] Enlace al siguiente PCB
   - [x] Dirección de inicio (Base)
@@ -82,10 +82,10 @@
   - [ ] Configuración a través de archivos (texto, JSON, XML, etc.)
 
 - [ ] **Gestión de Archivos**
-  - [ ] Implementar índice de archivos:
-    - [ ] Almacenar nombre de archivo
-    - [ ] Dirección de almacenamiento
-    - [ ] Ubicar el índice en los primeros registros de la unidad de almacenamiento
+  - [X] Implementar índice de archivos:
+    - [X] Almacenar nombre de archivo
+    - [] Dirección de almacenamiento
+    - [X] Ubicar el índice en los primeros registros de la unidad de almacenamiento
   - [ ] Manejar lectura y escritura de índices
 
 ## Dispositivos Simulados
