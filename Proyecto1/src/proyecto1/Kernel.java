@@ -32,26 +32,36 @@ public class Kernel {
         for (File file : files) { //(int i = 0; i < files.length; i++)
                        
             AsmLoader loader = new AsmLoader();
-            List<Expression> list = loader.loadFile(file.getAbsolutePath());//List<Expression> list = loader.loadFile(files[i].getAbsolutePath());
-            
-            // Memory allocation
-            int codeAddress = this.memory.malloc(list.size());
-            int stackAddress = this.memory.malloc(5);
-                  
-            // Load Memory
-            this.memory.loadInstructionsAt(codeAddress, list.size(), list);
-            
-            // Process creation
-            PCB newPCB = new PCB(this.processCounter, codeAddress, list.size());
-            newPCB.setStack(stackAddress, 5);
+            List<Expression> list = loader.loadFile(file.getAbsolutePath());
             
             // Store file data in secondary memory and update index.
             this.sMemory.store(file.getName(), list);
-            
-            
-            this.processCounter++;
+            // nota: guardemos primero en disco y luego creamos una funcion que selecciona que archivo o archivos son los que se van a leer y luego eso lo guardamos a memoria
+
         }
         this.sMemory.printFileIndex();
+    }
+    
+    public void loadToMemory(File file) {
+        AsmLoader loader = new AsmLoader();
+        List<Expression> list = loader.loadFile(file.getAbsolutePath());
+        
+        // ================= New Process creation =================
+        // Memory allocation
+        int codeAddress = this.memory.malloc(list.size());
+        int stackAddress = this.memory.malloc(5);
+                  
+        // Load Memory
+        this.memory.loadInstructionsAt(codeAddress, list.size(), list);
+            
+        // Process creation
+        PCB newPCB = new PCB(this.processCounter, codeAddress, list.size());
+        newPCB.setStack(stackAddress, 5);
+        
+        // Store on memory
+        this.memory.loadProcess(newPCB);
+            
+        this.processCounter++;
     }
     
     public void loadMemory(List<Expression> instructions) {

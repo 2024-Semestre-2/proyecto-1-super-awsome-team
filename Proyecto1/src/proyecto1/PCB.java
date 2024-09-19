@@ -14,6 +14,7 @@ import java.util.Objects;
  */
 public class PCB {
     private int ID;
+    int memoryAddress;
     
     private int programCodeIndex;
     private int programCodeSize;
@@ -42,6 +43,8 @@ public class PCB {
     private int PC;
     private Instruction IR;
     
+    private int nextPCB;
+    
     private int priority;
     
     public PCB(int id, int programCodeIndex, int programCodeSize) {
@@ -51,6 +54,7 @@ public class PCB {
         this.programCodeIndex = programCodeIndex;
         this.programCodeSize = programCodeSize;
         this.elapsedTime = Duration.ZERO; // Inicializa el tiempo empleado en 0
+        this.nextPCB = 0;
     }
     
     public PCB(/*int memoryAddress, */int id, int ax, int bx, int cx, int dx, int ac, int pc, Instruction ir, int priority) {
@@ -71,6 +75,13 @@ public class PCB {
         this.stackSegmentSize = stackSegmentSize;
     }
     
+    public void setNext(int next) {
+        this.nextPCB = next;
+    }
+    
+    public void setMemoryAddress(int memoryAddress) {
+        this.memoryAddress = memoryAddress;
+    }
 
     // Actualiza el estado y registra el tiempo de inicio si el proceso empieza a ejecutarse
     public void updateState(String state) {
@@ -90,6 +101,10 @@ public class PCB {
     // Retorna el tiempo empleado en ejecución en milisegundos
     public long getElapsedTimeMillis() {
       return this.elapsedTime.toMillis();
+    }
+    
+    public int id() {
+        return this.ID;
     }
     
     @Override

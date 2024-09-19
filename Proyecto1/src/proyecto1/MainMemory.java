@@ -6,7 +6,9 @@ package proyecto1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
  */
 public class MainMemory {
     private Object[] memoryArray; // Using Object to hold both instructions and data
+    private Map<Integer, Integer> pcbTable;
+    private Map<Integer, Integer> zombieQueue;
     private int nextUserSegmentAddress; // User segment for instructions
     private int nextOsSegmentAddress; // Segment for data
     private int userSegmentSize;
@@ -31,6 +35,8 @@ public class MainMemory {
         this.nextUserSegmentAddress = 0;
         this.nextOsSegmentAddress = userSegmentSize;
         this.memoryArray = new Object[this.memorySize];
+        this.pcbTable = new LinkedHashMap<>();
+        this.zombieQueue = new LinkedHashMap<>();
     }
     
     public int malloc(int size) {
@@ -74,14 +80,19 @@ public class MainMemory {
         }
     }
     
-    /*public void loadProcess(PCB process) {
+    public void loadProcess(PCB process) {
         if (this.nextOsSegmentAddress > osSegmentSize) {
             throw new IllegalArgumentException("Out-of-bounds memory address, not enough space in OS memory");
         }
+        // Include the memory address on the pcb
         process.setMemoryAddress(this.nextOsSegmentAddress);
+        // Store the pcb in memory
         memoryArray[this.nextOsSegmentAddress] = process;
+        // Update pcb table with the pcb id and memory address
+        this.pcbTable.put(process.id(), this.nextOsSegmentAddress);
+        
         this.nextOsSegmentAddress++;
-    }*/
+    }
     
     public void updateProcess(String state) {
         if (memoryArray[this.nextOsSegmentAddress-1] != null) {

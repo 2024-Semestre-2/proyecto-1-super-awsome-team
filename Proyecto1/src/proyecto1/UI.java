@@ -35,8 +35,8 @@ public class UI extends javax.swing.JFrame {
             System.out.println("Default settings: ");
             this.config = new Config("config.txt");
             System.out.println(config.toString());
-        } catch (Exception ex) {
-            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog", JOptionPane.ERROR_MESSAGE);
         }
         
         this.kernel = new Kernel(this.config);
@@ -111,8 +111,14 @@ public class UI extends javax.swing.JFrame {
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         File[] files = jFileChooserAsm.getSelectedFiles();
         try {
-            // Load to memory
+            // Load to secondary memory
             this.kernel.load(files);
+            
+            // Select file 
+            
+            // Load to memory
+            this.kernel.loadToMemory(files[0]);
+            
             // Scheduler
             
             // Dispatcher

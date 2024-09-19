@@ -6,24 +6,24 @@
   - [x] Contador del programa (ubicación en memoria)
   - [x] Registros AC, AX, BX, CX, DX, .....
   - [x] Asignar memoria a los procesos
-  - [ ] Información de la pila (tamaño de 5, manejo de desbordamiento)
+  - [x] Información de la pila (tamaño de 5, manejo de desbordamiento)
   - [ ] Información contable:
     - [ ] CPU en ejecución
     - [x] Tiempo de inicio
     - [x] Tiempo empleado
   - [ ] Información de E/S (lista de archivos abiertos)
-  - [ ] Enlace al siguiente PCB
+  - [x] Enlace al siguiente PCB
   - [x] Dirección de inicio (Base)
   - [ ] Tamaño del proceso (Alcance)
   - [x] Prioridad
 
 - [x] **Clase Main Memory**
-  - [ ] Definir secciones para los procesos a ejecutar y sus PCB
-  - [ ] Manejo de memoria para almacenar los valores de cada PCB
-  - [ ] Configuración de tamaño de memoria (por defecto 256 KB)
-  - [ ] Implementar memoria virtual (por defecto 64 KB)
+  - [x] Definir secciones para los procesos a ejecutar y sus PCB
+  - [x] Manejo de memoria para almacenar los valores de cada PCB
+  - [x] Configuración de tamaño de memoria (por defecto 256 KB)
 
 - [x] **Clase Secondary Memory**
+  - [x] Implementar memoria virtual (por defecto 64 KB)
 
 - [x] **Clase CPU**
   - [ ] Simular un CPU con capacidad para ejecutar 5 tareas
@@ -138,6 +138,9 @@
 ## Flujo del Programa
 - [x] **Cargar Programas en Memoria**
   - [x] Leer Archivos .asm: Leer uno o más archivos de programas en ensamblador (*.asm) desde el disco.
+  - [ ] Guardar los archivos en la memoria Secundaria
+  - [ ] Seleccionar el archivo
+  - [x] Cargar el archivo en memoria Primaria
   - [ ] **Crear Bloque de Control de Proceso (PCB) para Cada Programa**
     - [x] Asignar un Process ID (PID) único.
     - [x] Establecer la dirección base y el límite del segmento de memoria donde se almacenarán las instrucciones del programa.
@@ -145,7 +148,7 @@
     - [ ] Inicializar otros registros (AC, AX, BX, CX, DX) y la información del stack (tamaño del stack = 5).
     - [ ] Establecer la prioridad y otra información de contabilidad.
   - [ ] **Cargar las Instrucciones y Datos del Programa en el Segmento de Usuario**
-    - [x] Colocar las instrucciones en el segmento de código. 
+    - [x] Colocar las instrucciones en el segmento de código.
     - [ ] Colocar los datos en el segmento de datos del proceso.
   - [ ] **Añadir el PCB a la Cola de Procesos:** Insertar el PCB del nuevo proceso en la cola de procesos (por ejemplo, cola de procesos listos).
 

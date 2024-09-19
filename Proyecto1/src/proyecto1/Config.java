@@ -33,16 +33,18 @@ public class Config {
             if (line != null) {
                 // Separar los valores de memoria
                 String[] memorySizes = line.split(" ");
-                if (memorySizes.length == 3) {
+                if (memorySizes.length == 5) {
                     int mainMemorySize = Integer.parseInt(memorySizes[0]);  // Tamaño de la memoria principal
                     int secondaryMemorySize = Integer.parseInt(memorySizes[1]);  // Tamaño de la memoria principal
                     int virtualMemorySize = Integer.parseInt(memorySizes[2]);  // Tamaño de la memoria virtual
+                    int userSegmentSize = Integer.parseInt(memorySizes[3]);  // Tamaño del segmento de usuario
+                    int osSegmentSize = Integer.parseInt(memorySizes[4]);  // Tamaño del segmento de OS
            
                     this.mainMemorySize = mainMemorySize;
                     this.secondaryMemorySize = secondaryMemorySize;
                     this.virtualMemorySize = virtualMemorySize;
-                    this.userSegmentSize = 100;
-                    this.osSegmentSize = 100;
+                    this.userSegmentSize = userSegmentSize;
+                    this.osSegmentSize = osSegmentSize;
                 } 
                 else {
                     throw new IllegalArgumentException("ERROR: Config file must contain exactly three integer values on the first line.");
