@@ -107,6 +107,10 @@ public class PCB {
         return this.ID;
     }
     
+    public String state() {
+        return this.state;
+    }
+    
     @Override
     public String toString(){
         return " Proccess ID: "+this.ID+" Priority: "+this.priority+" State: "+this.state+" AC: "+this.AC+" AX: "+this.AX+" BX: "+this.BX+" CX: "+this.CX+" DX: "+this.DX+" IR: "+this.IR.operation + " Elapsed Time: " + getElapsedTimeMillis() + " ms";

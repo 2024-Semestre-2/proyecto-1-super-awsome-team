@@ -120,6 +120,7 @@ public class UI extends javax.swing.JFrame {
             this.kernel.loadToMemory(files[0]);
             
             // Scheduler
+            Pair pcb = this.kernel.scheduler();
             
             // Dispatcher
         }

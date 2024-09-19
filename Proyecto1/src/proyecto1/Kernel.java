@@ -28,6 +28,28 @@ public class Kernel {
         this.processCounter = 0;
     }
     
+    public Pair scheduler() {
+        List<Pair> table = this.memory.getPcbTable();
+        Pair result = null;
+        
+        for (int i = 0; i < table.size(); i++) {
+            Pair address = table.get(i);
+            
+            PCB pcb = this.memory.getProcess(address.memoryAddress);
+            System.out.println(pcb.id() + " " + pcb.state());
+            
+            if (pcb.state() == "new") {
+                result = address;
+            }
+            else if (pcb.state() == "terminated") {
+                // Remove from table and add it to zombie list
+                this.memory.removeFromTable(address);
+            }
+        }
+        
+        return result;
+    }
+    
     public void load(File[] files) {                                
         for (File file : files) { //(int i = 0; i < files.length; i++)
                        
@@ -116,10 +138,10 @@ public class Kernel {
         this.processCounter++;
     }
     
-   
     public int proccesOn() {
       return this.processCounter; 
     }
+    
     public void updateProcess() {
         this.memory.updateProcess("ready");
     }

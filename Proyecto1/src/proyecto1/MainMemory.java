@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
  */
 public class MainMemory {
     private Object[] memoryArray; // Using Object to hold both instructions and data
-    private Map<Integer, Integer> pcbTable;
-    private Map<Integer, Integer> zombieQueue;
+    private List<Pair> pcbTable;
+    private List<Pair> zombieQueue;
     private int nextUserSegmentAddress; // User segment for instructions
     private int nextOsSegmentAddress; // Segment for data
     private int userSegmentSize;
@@ -35,8 +35,17 @@ public class MainMemory {
         this.nextUserSegmentAddress = 0;
         this.nextOsSegmentAddress = userSegmentSize;
         this.memoryArray = new Object[this.memorySize];
-        this.pcbTable = new LinkedHashMap<>();
-        this.zombieQueue = new LinkedHashMap<>();
+        this.pcbTable = new ArrayList<>();
+        this.zombieQueue = new ArrayList<>();
+    }
+    
+    public List<Pair> getPcbTable() {
+        return this.pcbTable;
+    }
+    
+    public void removeFromTable(Pair pair) {
+        this.pcbTable.remove(pair);
+        this.zombieQueue.add(pair);
     }
     
     public int malloc(int size) {
@@ -80,6 +89,14 @@ public class MainMemory {
         }
     }
     
+    public PCB getProcess(int address) {
+        if (address > userSegmentSize) { 
+            throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address");
+        } else {
+            return (PCB) this.memoryArray[address];
+        }
+    }
+    
     public void loadProcess(PCB process) {
         if (this.nextOsSegmentAddress > osSegmentSize) {
             throw new IllegalArgumentException("Out-of-bounds memory address, not enough space in OS memory");
@@ -89,7 +106,7 @@ public class MainMemory {
         // Store the pcb in memory
         memoryArray[this.nextOsSegmentAddress] = process;
         // Update pcb table with the pcb id and memory address
-        this.pcbTable.put(process.id(), this.nextOsSegmentAddress);
+        this.pcbTable.add(new Pair(process.id(), this.nextOsSegmentAddress));
         
         this.nextOsSegmentAddress++;
     }
