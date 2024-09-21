@@ -120,9 +120,13 @@ public class UI extends javax.swing.JFrame {
             this.kernel.loadToMemory(files[0]);
             
             // Scheduler
-            Pair pcb = this.kernel.scheduler();
+            Pair pair = this.kernel.scheduler();
             
             // Dispatcher
+            PCB pcb = this.kernel.distpacher(pair);
+            
+            // Execution
+            this.kernel.execute(pcb);
         }
         catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog", JOptionPane.ERROR_MESSAGE);

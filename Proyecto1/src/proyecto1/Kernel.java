@@ -50,6 +50,13 @@ public class Kernel {
         return result;
     }
     
+    public PCB distpacher(Pair pair) {
+        PCB pcb = this.memory.getProcess(pair.memoryAddress);
+        pcb.updateState("running");
+        
+        return pcb;
+    }
+    
     public void load(File[] files) {                                
         for (File file : files) { //(int i = 0; i < files.length; i++)
                        
@@ -100,9 +107,13 @@ public class Kernel {
         return this.cpu.peekInstruction(memory);
     }
     
-    public void execute() {
-        this.cpu.execute(this.cpu.fetchInstruction(memory));
-        this.newProcess();
+    public void execute(PCB pcb) {
+        // Load registers from pcb
+        this.cpu.updateRegisters(pcb.ax(), pcb.bx(), pcb.cx(), pcb.dx(), pcb.ac(), pcb.pc(), pcb.ir());
+        
+        while (!pcb.reachedEnd()) {
+            this.cpu.execute(this.cpu.fetchInstruction(memory));
+        }
     }
     
     public int ax() {
@@ -127,6 +138,10 @@ public class Kernel {
     
     public String ir() {
         return this.cpu.ir().operation;
+    }
+    
+    public Instruction ir1() {
+        return this.cpu.ir();
     }
     
     public int pc() {

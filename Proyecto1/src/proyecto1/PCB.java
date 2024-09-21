@@ -55,19 +55,23 @@ public class PCB {
         this.programCodeSize = programCodeSize;
         this.elapsedTime = Duration.ZERO; // Inicializa el tiempo empleado en 0
         this.nextPCB = 0;
+        
+        this.AX = 0;
+        this.BX = 0;
+        this.CX = 0;
+        this.DX = 0;
+        this.AC = 0;
+        this.PC = 0;
+        this.IR = null;
     }
     
-    public PCB(/*int memoryAddress, */int id, int ax, int bx, int cx, int dx, int ac, int pc, Instruction ir, int priority) {
-        //this.memoryAddress = memoryAddress;
-        this.ID = id;
-        this.state = "new";
+    public void updateRegisters(int ax, int bx, int cx, int dx, int ac, int pc, Instruction ir) {
         this.AX = ax;
         this.BX = bx;
         this.CX = cx;
         this.DX = dx;
         this.AC = ac;
         this.IR = ir;
-        this.priority = priority;
     }
     
     public void setStack(int stackSegmentIndex, int stackSegmentSize) {
@@ -82,11 +86,16 @@ public class PCB {
     public void setMemoryAddress(int memoryAddress) {
         this.memoryAddress = memoryAddress;
     }
+    
+    public boolean reachedEnd() {
+        return this.PC >= this.programCodeIndex + this.programCodeSize;
+    }
 
     // Actualiza el estado y registra el tiempo de inicio si el proceso empieza a ejecutarse
     public void updateState(String state) {
       if (Objects.equals(this.state, "ready") && Objects.equals(state, "running")) {
         this.startTime = Instant.now(); // Registra el tiempo de inicio
+        this.PC = this.programCodeSize;
       } 
       else if (Objects.equals(this.state, "running") && !Objects.equals(state, "running")) {
         // Si el proceso deja de estar en ejecución, calcula el tiempo transcurrido
@@ -109,6 +118,38 @@ public class PCB {
     
     public String state() {
         return this.state;
+    }
+    
+    public int programCodeIndex() {
+        return this.programCodeIndex;
+    }
+    
+    public int ax() {
+        return this.AX;
+    }
+    
+    public int bx() {
+        return this.BX;
+    }
+    
+    public int cx() {
+        return this.CX;
+    }
+    
+    public int dx() {
+        return this.DX;
+    }
+    
+    public int ac() {
+        return this.AC;
+    }
+    
+    public Instruction ir() {
+        return this.IR;
+    }
+    
+    public int pc() {
+        return this.PC;
     }
     
     @Override
