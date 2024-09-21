@@ -64,7 +64,7 @@
 
 - [ ] Implementar manejo de enlaces entre los PCBs
 - [ ] Correcto manejo de la memoria para almacenar los PCBs y procesos
-- [ ] Implementar algoritmo de planificación **FCFS** (First Come, First Served)
+- [x] Implementar algoritmo de planificación **FCFS** (First Come, First Served)
 - [ ] Manejar espera de procesos cuando no hay espacio en memoria principal
 - [ ] Gestionar **cambios de contexto** entre procesos
 - [ ] Implementar un **despachador** para manejar la asignación de procesos a los núcleos
@@ -79,12 +79,12 @@
 
 - [ ] **Unidad de Almacenamiento Secundaria**
   - [ ] Simular almacenamiento en disco para programas
-  - [ ] Configuración a través de archivos (texto, JSON, XML, etc.)
+  - [x] Configuración a través de archivos (texto, JSON, XML, etc.)
 
 - [ ] **Gestión de Archivos**
   - [X] Implementar índice de archivos:
     - [X] Almacenar nombre de archivo
-    - [] Dirección de almacenamiento
+    - [ ] Dirección de almacenamiento
     - [X] Ubicar el índice en los primeros registros de la unidad de almacenamiento
   - [ ] Manejar lectura y escritura de índices
 
@@ -154,7 +154,7 @@
 
 - [ ] **Gestión de Procesos y Planificación (Scheduling)**
   - [ ] **Algoritmo de Planificación FCFS (First-Come, First-Served)**
-    - [ ] Seleccionar el primer proceso de la cola de procesos listos para ser ejecutado.
+    - [x] Seleccionar el primer proceso de la cola de procesos listos para ser ejecutado.
     - [ ] El proceso seleccionado cambia a estado Running.
   - [ ] **Conmutación de Contexto (Context Switching)**
     - [ ] Guardar el estado del proceso actual en su PCB cuando se pausa o bloquea.
