@@ -112,8 +112,18 @@ public class Kernel {
         this.cpu.updateRegisters(pcb.ax(), pcb.bx(), pcb.cx(), pcb.dx(), pcb.ac(), pcb.pc(), pcb.ir());
         
         while (!pcb.reachedEnd()) {
-            this.cpu.execute(this.cpu.fetchInstruction(memory));
+            // Fetch
+            Instruction ins = this.cpu.fetchInstruction(memory);
+            System.out.println(ins.toString());
+            // Decode, Execute
+            this.cpu.execute(ins);
+            // Update PCB
+            pcb.updateRegisters(this.ax(), this.bx(), this.cx(), this.dx(), this.ac(), this.pc(), this.ir());
+            System.out.println(pcb.toString());
         }
+        
+        pcb.updateState("terminated");
+        System.out.println(pcb.toString());
     }
     
     public int ax() {
@@ -136,11 +146,7 @@ public class Kernel {
         return this.cpu.ac();
     }
     
-    public String ir() {
-        return this.cpu.ir().operation;
-    }
-    
-    public Instruction ir1() {
+    public Instruction ir() {
         return this.cpu.ir();
     }
     

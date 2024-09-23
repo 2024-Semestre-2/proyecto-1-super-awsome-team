@@ -161,6 +161,22 @@
     - [ ] Cargar el estado del próximo proceso a ejecutar desde su PCB.
 
 - [ ] **Ejecución del Ciclo Fetch-Decode-Execute**
+  - [x] LOAD
+  - [x] STORE
+  - [x] MOV
+  - [x] SUB
+  - [x] ADD
+  - [ ] INC
+  - [ ] DEC
+  - [ ] SWAP
+  - [ ] INT
+  - [ ] JMP
+  - [ ] CMP
+  - [ ] JE
+  - [ ] JNE
+  - [ ] PARAM
+  - [ ] PUSH
+  - [ ] POP
   - [ ] **Modo de Ejecución Paso a Paso**
     - [ ] En el Modo Paso a Paso, ejecutar las instrucciones una por una. El usuario presiona un botón "Siguiente" para ejecutar cada instrucción.
     - [ ] Actualizar la interfaz gráfica (GUI) para mostrar el estado actual del PCB, los registros (IR, AC, PC), y la memoria.

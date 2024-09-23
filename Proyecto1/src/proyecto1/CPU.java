@@ -4,6 +4,8 @@
  */
 package proyecto1;
 
+import static proyecto1.AsmLoader.isNumeric;
+
 /**
  *
  * @author someone
@@ -52,16 +54,32 @@ public class CPU {
                 try {
                     switch(instruction.operands[0]) {
                         case "AX":
-                            this.AX = Integer.valueOf(instruction.operands[1]);
+                            if (isNumeric(instruction.operands[1])) {
+                                this.AX = Integer.valueOf(instruction.operands[1]);
+                            } else {
+                                this.AX = this.getValue(instruction.operands[1]);
+                            }
                             break;
                         case "BX":
-                            this.BX = Integer.valueOf(instruction.operands[1]);
+                            if (isNumeric(instruction.operands[1])) {
+                                this.BX = Integer.valueOf(instruction.operands[1]);
+                            } else {
+                                this.BX = this.getValue(instruction.operands[1]);
+                            }
                             break;
                         case "CX":
-                            this.CX = Integer.valueOf(instruction.operands[1]);
+                            if (isNumeric(instruction.operands[1])) {
+                                this.CX = Integer.valueOf(instruction.operands[1]);
+                            } else {
+                                this.CX = this.getValue(instruction.operands[1]);
+                            }
                             break;
                         case "DX":
-                            this.DX = Integer.valueOf(instruction.operands[1]);
+                            if (isNumeric(instruction.operands[1])) {
+                                this.DX = Integer.valueOf(instruction.operands[1]);
+                            } else {
+                                this.DX = this.getValue(instruction.operands[1]);
+                            }
                             break;
                     }
                 } catch (NumberFormatException e) {
@@ -137,6 +155,15 @@ public class CPU {
         }
     }
     
+    public void updateRegisters(int ax, int bx, int cx, int dx, int ac, int pc, Instruction ir) {
+        this.AX = ax;
+        this.BX = bx;
+        this.CX = cx;
+        this.DX = dx;
+        this.AC = ac;
+        this.IR = ir;
+    }
+    
     public int ax() {
         return this.AX;
     }
@@ -163,6 +190,25 @@ public class CPU {
     
     public int pc() {
         return this.PC;
+    }
+    
+    private int getValue(String register) {
+        int sol = 0;
+        switch (register) {
+            case "AX":
+                sol = this.AX;
+                break;
+            case "BX":
+                sol = this.BX;
+                break;
+            case "CX":
+                sol = this.CX;
+                break;
+            case "DX":
+                sol = this.DX;
+                break;
+        }
+        return sol;
     }
     
 }

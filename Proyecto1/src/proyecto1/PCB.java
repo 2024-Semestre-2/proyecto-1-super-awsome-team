@@ -71,6 +71,7 @@ public class PCB {
         this.CX = cx;
         this.DX = dx;
         this.AC = ac;
+        this.PC = pc;
         this.IR = ir;
     }
     
@@ -88,7 +89,7 @@ public class PCB {
     }
     
     public boolean reachedEnd() {
-        return this.PC >= this.programCodeIndex + this.programCodeSize;
+        return this.PC == this.programCodeIndex + this.programCodeSize;
     }
 
     // Actualiza el estado y registra el tiempo de inicio si el proceso empieza a ejecutarse
@@ -154,6 +155,6 @@ public class PCB {
     
     @Override
     public String toString(){
-        return " Proccess ID: "+this.ID+" Priority: "+this.priority+" State: "+this.state+" AC: "+this.AC+" AX: "+this.AX+" BX: "+this.BX+" CX: "+this.CX+" DX: "+this.DX+" IR: "+this.IR.operation + " Elapsed Time: " + getElapsedTimeMillis() + " ms";
+        return " Proccess ID: "+this.ID+" Priority: "+this.priority+" State: "+this.state+" AC: "+this.AC+" AX: "+this.AX+" BX: "+this.BX+" CX: "+this.CX+" DX: "+this.DX+" PC: "+ this.PC +" IR: "+this.IR.operation + " Elapsed Time: " + getElapsedTimeMillis() + " ms";
     }
 }
