@@ -52,103 +52,48 @@ public class CPU {
         switch (instruction.operation) {
             case "MOV":
                 try {
-                    switch(instruction.operands[0]) {
-                        case "AX":
-                            if (isNumeric(instruction.operands[1])) {
-                                this.AX = Integer.valueOf(instruction.operands[1]);
-                            } else {
-                                this.AX = this.getValue(instruction.operands[1]);
-                            }
-                            break;
-                        case "BX":
-                            if (isNumeric(instruction.operands[1])) {
-                                this.BX = Integer.valueOf(instruction.operands[1]);
-                            } else {
-                                this.BX = this.getValue(instruction.operands[1]);
-                            }
-                            break;
-                        case "CX":
-                            if (isNumeric(instruction.operands[1])) {
-                                this.CX = Integer.valueOf(instruction.operands[1]);
-                            } else {
-                                this.CX = this.getValue(instruction.operands[1]);
-                            }
-                            break;
-                        case "DX":
-                            if (isNumeric(instruction.operands[1])) {
-                                this.DX = Integer.valueOf(instruction.operands[1]);
-                            } else {
-                                this.DX = this.getValue(instruction.operands[1]);
-                            }
-                            break;
+                    if (isNumeric(instruction.operands[1])) {
+                        setValue(instruction.operands[0], Integer.valueOf(instruction.operands[1]));
+                    } else {
+                        setValue(instruction.operands[0], this.getValue(instruction.operands[1]));
                     }
                 } catch (NumberFormatException e) {
                     throw e;
                 }
                 break;
             case "ADD":
-                switch(instruction.operands[0]) {
-                    case "AX":
-                        this.AC += this.AX;
-                        break;
-                    case "BX":
-                        this.AC += this.BX;
-                        break;
-                    case "CX":
-                        this.AC += this.CX;
-                        break;
-                    case "DX":
-                        this.AC += this.DX;
-                        break;
-                }
+                this.AC += this.getValue(instruction.operands[0]);
                 break;
             case "SUB":
-                switch(instruction.operands[0]) {
-                    case "AX":
-                        this.AC -= this.AX;
-                        break;
-                    case "BX":
-                        this.AC -= this.BX;
-                        break;
-                    case "CX":
-                        this.AC -= this.CX;
-                        break;
-                    case "DX":
-                        this.AC -= this.DX;
-                        break;
-                }
+                this.AC -= this.getValue(instruction.operands[0]);
                 break;
             case "STORE":
-                switch(instruction.operands[0]) {
-                    case "AX":
-                        this.AX = this.AC ;
-                        break;
-                    case "BX":
-                        this.BX = this.AC ;
-                        break;
-                    case "CX":
-                        this.CX = this.AC ;
-                        break;
-                    case "DX":
-                        this.DX = this.AC ;
-                        break;
-                }
+                setValue(instruction.operands[0], this.AC);
                 break;
             case "LOAD":
-                switch(instruction.operands[0]) {
-                    case "AX":
-                        this.AC = this.AX;
-                        break;
-                    case "BX":
-                        this.AC = this.BX;
-                        break;
-                    case "CX":
-                        this.AC = this.CX;
-                        break;
-                    case "DX":
-                        this.AC = this.DX;
-                        break;
+                this.AC = this.getValue(instruction.operands[0]);
+                break;
+            case "INC":
+                if (instruction.operands.length > 0) {
+                    this.AC += this.getValue(instruction.operands[0]);
+                } 
+                else {
+                    this.AC += 1;
                 }
+                break;
+            case "DEC":
+                if (instruction.operands.length > 0) {
+                    this.AC -= this.getValue(instruction.operands[0]);
+                } 
+                else {
+                    this.AC -= 1;
+                }
+                break;
+            case "SWAP":
+                int temp1 = this.getValue(instruction.operands[0]);
+                
+                setValue(instruction.operands[0], this.getValue(instruction.operands[1]));
+                setValue(instruction.operands[1], temp1);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid operation: " + instruction.operation);
@@ -206,6 +151,25 @@ public class CPU {
                 break;
             case "DX":
                 sol = this.DX;
+                break;
+        }
+        return sol;
+    }
+    
+    private int setValue(String register, int value) {
+        int sol = 0;
+        switch (register) {
+            case "AX":
+                this.AX = value ;
+                break;
+            case "BX":
+                this.BX = value ;
+                break;
+            case "CX":
+                this.CX = value ;
+                break;
+            case "DX":
+                this.DX = value ;
                 break;
         }
         return sol;

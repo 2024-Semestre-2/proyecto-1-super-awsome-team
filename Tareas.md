@@ -166,9 +166,9 @@
   - [x] MOV
   - [x] SUB
   - [x] ADD
-  - [ ] INC
-  - [ ] DEC
-  - [ ] SWAP
+  - [x] INC
+  - [x] DEC
+  - [x] SWAP
   - [ ] INT
   - [ ] JMP
   - [ ] CMP
