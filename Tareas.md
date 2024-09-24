@@ -170,10 +170,10 @@
   - [x] DEC
   - [x] SWAP
   - [ ] INT
-  - [ ] JMP
-  - [ ] CMP
-  - [ ] JE
-  - [ ] JNE
+  - [x] JMP
+  - [x] CMP
+  - [x] JE
+  - [x] JNE
   - [ ] PARAM
   - [ ] PUSH
   - [ ] POP

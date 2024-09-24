@@ -41,6 +41,7 @@ public class PCB {
     private int DX;
     private int AC;
     private int PC;
+    private boolean Z;
     private Instruction IR;
     
     private int nextPCB;
@@ -62,16 +63,17 @@ public class PCB {
         this.DX = 0;
         this.AC = 0;
         this.PC = 0;
+        this.Z = false;
         this.IR = null;
     }
     
-    public void updateRegisters(int ax, int bx, int cx, int dx, int ac, int pc, Instruction ir) {
+    public void updateRegisters(int ax, int bx, int cx, int dx, int ac, int pc, boolean z, Instruction ir) {
         this.AX = ax;
         this.BX = bx;
         this.CX = cx;
         this.DX = dx;
         this.AC = ac;
-        this.PC = pc;
+        this.Z = z;
         this.IR = ir;
     }
     
@@ -145,6 +147,10 @@ public class PCB {
         return this.AC;
     }
     
+    public boolean z() {
+        return this.Z;
+    }
+    
     public Instruction ir() {
         return this.IR;
     }
@@ -155,6 +161,6 @@ public class PCB {
     
     @Override
     public String toString(){
-        return " Proccess ID: "+this.ID+" Priority: "+this.priority+" State: "+this.state+" AC: "+this.AC+" AX: "+this.AX+" BX: "+this.BX+" CX: "+this.CX+" DX: "+this.DX+" PC: "+ this.PC +" IR: "+this.IR.operation + " Elapsed Time: " + getElapsedTimeMillis() + " ms";
+        return " Proccess ID: "+this.ID+" Priority: "+this.priority+" State: "+this.state+" AC: "+this.AC+" AX: "+this.AX+" BX: "+this.BX+" CX: "+this.CX+" DX: "+this.DX+" Z: "+this.Z+" PC: "+ this.PC +" IR: "+this.IR.operation + " Elapsed Time: " + getElapsedTimeMillis() + " ms";
     }
 }

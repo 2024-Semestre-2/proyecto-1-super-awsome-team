@@ -17,6 +17,7 @@ public class CPU {
     private int DX;
     private int AC;
     private int PC;
+    private boolean Z;
     private Instruction IR;
     
     public CPU() {
@@ -26,6 +27,7 @@ public class CPU {
         this.DX = 0;
         this.AC = 0;
         this.PC = 0;
+        this.Z = false;
         this.IR = null;
     }
     
@@ -95,17 +97,34 @@ public class CPU {
                 setValue(instruction.operands[0], this.getValue(instruction.operands[1]));
                 setValue(instruction.operands[1], temp1);
                 break;
+            case "CMP":
+                this.Z = this.getValue(instruction.operands[0]) == this.getValue(instruction.operands[1]);
+                break;
+            case "JMP":
+                this.PC += Integer.valueOf(instruction.operands[0]);
+                break;
+            case "JE":
+                if (this.Z) {
+                    this.PC += Integer.valueOf(instruction.operands[0]);
+                }
+                break;
+            case "JNE":
+                if (!this.Z) {
+                    this.PC += Integer.valueOf(instruction.operands[0]);
+                }
+                break;
             default:
                 throw new IllegalArgumentException("Invalid operation: " + instruction.operation);
         }
     }
     
-    public void updateRegisters(int ax, int bx, int cx, int dx, int ac, int pc, Instruction ir) {
+    public void updateRegisters(int ax, int bx, int cx, int dx, int ac, int pc, boolean z, Instruction ir) {
         this.AX = ax;
         this.BX = bx;
         this.CX = cx;
         this.DX = dx;
         this.AC = ac;
+        this.Z = z;
         this.IR = ir;
     }
     
@@ -127,6 +146,10 @@ public class CPU {
     
     public int ac() {
         return this.AC;
+    }
+    
+    public boolean z() {
+        return this.Z;
     }
     
     public Instruction ir() {
