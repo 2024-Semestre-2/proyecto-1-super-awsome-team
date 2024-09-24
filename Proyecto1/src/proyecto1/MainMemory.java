@@ -25,8 +25,9 @@ public class MainMemory {
     private int userSegmentSize;
     private int osSegmentSize;
     private int memorySize;
-    
-    
+   
+    private int processCounter =1;
+   
     public MainMemory(int size, int user, int os) {
         this.memorySize = size;
         this.userSegmentSize = user;
@@ -98,6 +99,7 @@ public class MainMemory {
     }
     
     public void loadProcess(PCB process) {
+        System.out.println("Evaluamos:"+this.nextOsSegmentAddress+" Con:"+osSegmentSize);
         if (this.nextOsSegmentAddress > osSegmentSize) {
             throw new IllegalArgumentException("Out-of-bounds memory address, not enough space in OS memory");
         }
@@ -123,11 +125,15 @@ public class MainMemory {
       }
       System.out.println("Memory freed from address " + address + " to " + (address + size));
     }
-
+  
+    
+    
     public List<String> getMemoryArray() {
         return Arrays.asList(this.memoryArray).stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
     }
-    
+    public int getNextProcessId() {
+        return processCounter++;
+    }
     public int instructionAddresSize() {
         return this.userSegmentSize;
     }

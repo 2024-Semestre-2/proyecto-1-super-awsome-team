@@ -33,7 +33,7 @@ public class UI extends javax.swing.JFrame {
         try {
             // Startup
             System.out.println("Default settings: ");
-            this.config = new Config("config.txt");
+            this.config = new Config("config2.txt");
             System.out.println(config.toString());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog", JOptionPane.ERROR_MESSAGE);
@@ -154,7 +154,8 @@ public class UI extends javax.swing.JFrame {
           try {
             this.config = new Config(file.getName());
             System.out.println("  -Update Memory size-\n");
-            System.out.println(config);  
+            System.out.println(config.toString());
+            
             this.kernel = new Kernel(config);          
           }        
           catch (Exception ex) {

@@ -47,7 +47,7 @@ public class Config {
                     this.osSegmentSize = osSegmentSize;
                 } 
                 else {
-                    throw new IllegalArgumentException("ERROR: Config file must contain exactly three integer values on the first line.");
+                    throw new IllegalArgumentException("ERROR: Config file must contain exactly 5 integer values on the first line.");
                 }
             }
         }

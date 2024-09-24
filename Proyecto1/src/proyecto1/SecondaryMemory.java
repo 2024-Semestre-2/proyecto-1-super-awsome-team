@@ -5,7 +5,9 @@
 package proyecto1;
 
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,7 +36,7 @@ public class SecondaryMemory {
     public SecondaryMemory(int size, int virtualSize) {
         this.memorySize = size;
         this.virtualSize = virtualSize;
-        this.nextAddress = 1; //virtualSize  Nota: Dudas sobre direccionamiento en base a la totalidad de la secundaria
+        this.nextAddress = virtualSize; //virtualSize  Nota: Dudas sobre direccionamiento en base a la totalidad de la secundaria
         
         this.memoryArray = new Object[this.memorySize];
         this.fileIndex = new LinkedHashMap<>();
@@ -85,6 +87,88 @@ public class SecondaryMemory {
         return null;
     }
 }
+
+  /**
+   * 
+   * @param filenames, lista de nombres a buscar 
+   * @return Lista de archivos disponibles para ser cargados a memoria principal 
+   */    
+  public List<String> selectFiles(List<String> filenames) {
+    List<String> selectedFiles = new ArrayList<>();  
+    // Recorremos los nombres proporcionados
+    for (String filename : filenames) {
+        if (fileIndex.containsKey(filename)) {
+            selectedFiles.add(filename);
+        } else {
+            System.out.println("El archivo " + filename + " no existe en memoria secundaria.");
+        }
+    }
+    // Retorna la lista de archivos seleccionados que sí existen en la memoria secundaria
+    return selectedFiles;
+  }
+
+
+  public void removeFile(String filename) {
+    // Verificar si el archivo existe en el índice
+    if (fileIndex.containsKey(filename)) {
+        // Obtener la dirección de memoria del archivo
+        int address = fileIndex.get(filename);
+        
+        // Eliminar el archivo del índice
+        fileIndex.remove(filename);
+        
+        // Liberar el espacio de memoria donde estaba el archivo
+        memoryArray[address] = null;
+        
+        // Ajustar las direcciones de los archivos que están después del archivo eliminado
+        // para evitar fragmentación.
+        for (int i = address + 1; i < nextAddress; i++) {
+            memoryArray[i - 1] = memoryArray[i]; // Mover archivo a la dirección anterior
+            memoryArray[i] = null; // Limpiar la dirección actual
+        }
+        
+        // Actualizar la siguiente dirección disponible
+        nextAddress--;
+        
+        System.out.println("Archivo " + filename + " eliminado exitosamente.");
+    } else {
+        System.out.println("El archivo " + filename + " no existe.");
+    }
+  }
+  
+  public void loadSelectedFilesToMemory(MainMemory mainMemory, List<String> selectedFiles) {
+    for (String filename : selectedFiles) {
+        // Recuperar el archivo desde la memoria secundaria
+        Object fileContent = retrieve(filename);
+        
+        if (fileContent instanceof List<?>) {
+            // Convertimos el contenido del archivo a una lista de expresiones (instrucciones ASM)
+            List<Expression> instructions = (List<Expression>) fileContent;
+
+            // Asignación de memoria en memoria principal
+            int codeAddress = mainMemory.malloc(instructions.size());
+            int stackAddress = mainMemory.malloc(5);
+            
+            // Cargar instrucciones a la memoria principal
+            mainMemory.loadInstructionsAt(codeAddress, instructions.size(), instructions);
+            
+            // Obtener el siguiente ID de proceso de la memoria principal
+            int processId = mainMemory.getNextProcessId();
+
+            // Crear PCB para el proceso
+            PCB newPCB = new PCB(processId, codeAddress, instructions.size());
+            newPCB.setStack(stackAddress, 5);
+            
+            // Cargar proceso en la memoria principal
+            mainMemory.loadProcess(newPCB);
+
+            System.out.println("El archivo " + filename + " ha sido cargado exitosamente a la memoria principal.");
+        } else {
+            System.out.println("Error al recuperar el archivo " + filename + ". No es un archivo ASM válido.");
+        }
+    }
+  }
+
 
     /**
      * Gets the starting address of the virtual memory.
