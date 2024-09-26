@@ -74,6 +74,30 @@ public class MainMemory {
         }
     }
     
+    public int pushToStack(int address, int stackBase, int data) {
+        if (address >= stackBase) {
+            memoryArray[address] = data;
+            address--;
+        }
+        else {
+            throw new IllegalArgumentException("Attempt to access out-of-bounds memory address");
+        }
+        
+        return address;
+    }
+    
+    public int popFromStack(int address, int stackBase) {
+        int result;
+        if (address <= stackBase) {
+            result = (int) memoryArray[address];
+        }
+        else {
+            throw new IllegalArgumentException("Attempt to access out-of-bounds memory address");
+        }
+        
+        return result;
+    }
+    
     public void loadInstruction(String opcode, String operation, String[] operands) {
         if (this.nextUserSegmentAddress > userSegmentSize) {
             throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address, not enough space in user memory");

@@ -165,21 +165,6 @@ public class UI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Puede cargar más archivos antes de proceder.", 
                 "Cargar más archivos",JOptionPane.INFORMATION_MESSAGE);
             }
-           
-            /**
-            
-            // Load to memory
-            this.kernel.loadToMemory(files[0]);
-            
-            // Scheduler
-            Pair pair = this.kernel.scheduler();
-            
-            // Dispatcher
-            PCB pcb = this.kernel.distpacher(pair);
-            
-            // Execution
-            this.kernel.execute(pcb);
-            */
         }
         catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog", JOptionPane.ERROR_MESSAGE);

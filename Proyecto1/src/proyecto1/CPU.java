@@ -4,6 +4,7 @@
  */
 package proyecto1;
 
+import java.util.Arrays;
 import static proyecto1.AsmLoader.isNumeric;
 
 /**
@@ -116,7 +117,28 @@ public class CPU {
                 }
                 break;
             case "PUSH":
-                this.SP--;
+                try {
+                    this.SP = memory.pushToStack(this.SP, stackBase, this.getValue(instruction.operands[0]));
+                } catch (IllegalArgumentException e) {
+                    throw e;
+                }
+                break;
+            case "POP":
+                try {
+                    setValue(instruction.operands[0], memory.popFromStack(this.SP, stackBase));
+                    this.SP++;
+                } catch (IllegalArgumentException e) {
+                    throw e;
+                }
+            case "PARAM":
+                try {
+                    for (int i = 0; i < instruction.operands.length; i++) {
+                        this.SP = memory.pushToStack(this.SP, stackBase, Integer.valueOf(instruction.operands[i]));
+                    }
+                } catch (IllegalArgumentException e) {
+                    throw e;
+                }
+                
                 break;
             default:
                 throw new IllegalArgumentException("Invalid operation: " + instruction.operation);
