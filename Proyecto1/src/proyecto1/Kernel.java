@@ -58,18 +58,18 @@ public class Kernel {
     }
     
     public void load(File[] files) {                                
-        for (File file : files) { //(int i = 0; i < files.length; i++)
-                       
+        for (File file : files) { //(int i = 0; i < files.length; i++)                     
             AsmLoader loader = new AsmLoader();
             List<Expression> list = loader.loadFile(file.getAbsolutePath());
             
             // Store file data in secondary memory and update index.
             this.sMemory.store(file.getName(), list);
             // nota: guardemos primero en disco y luego creamos una funcion que selecciona que archivo o archivos son los que se van a leer y luego eso lo guardamos a memoria
-
         }
         this.sMemory.printFileIndex();
     }
+    
+    
     
     public void loadToMemory(File file) {
         AsmLoader loader = new AsmLoader();
@@ -166,6 +166,13 @@ public class Kernel {
         this.processCounter++;
     }
     
+  public List<Expression> getFileData(String filename) {
+    return (List<Expression>) this.sMemory.retrieve(filename);
+  }
+  public SecondaryMemory getSecondaryMemory() {
+    return this.sMemory;
+}
+
     public int proccesOn() {
       return this.processCounter; 
     }

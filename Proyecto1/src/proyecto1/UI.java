@@ -53,6 +53,9 @@ public class UI extends javax.swing.JFrame {
 
         jFileChooserAsm = new javax.swing.JFileChooser();
         jFileChooserConfig = new javax.swing.JFileChooser();
+        Start = new javax.swing.JButton();
+        Step = new javax.swing.JButton();
+        Clean = new javax.swing.JButton();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemOpenFile = new javax.swing.JMenuItem();
@@ -65,6 +68,17 @@ public class UI extends javax.swing.JFrame {
         jFileChooserConfig.setFileFilter(new proyecto1.TxtFilter());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        Start.setText("Start");
+        Start.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartActionPerformed(evt);
+            }
+        });
+
+        Step.setText("Step");
+
+        Clean.setText("Clean");
 
         jMenu3.setText("File");
 
@@ -96,11 +110,24 @@ public class UI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 937, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(197, 197, 197)
+                .addComponent(Start)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Step)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Clean)
+                .addContainerGap(512, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 599, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Start)
+                    .addComponent(Step)
+                    .addComponent(Clean))
+                .addContainerGap(570, Short.MAX_VALUE))
         );
 
         pack();
@@ -111,10 +138,35 @@ public class UI extends javax.swing.JFrame {
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         File[] files = jFileChooserAsm.getSelectedFiles();
         try {
+            
             // Load to secondary memory
             this.kernel.load(files);
             
-            // Select file 
+            
+            // Select file  Section 
+            int response = JOptionPane.showConfirmDialog(this,"¿Desea continuar con el procesamiento de los archivos cargados?", 
+            "Confirmación", JOptionPane.YES_NO_OPTION);
+            
+            if (response == JOptionPane.YES_OPTION) {
+                System.out.println("Cargando");
+                // Load to memory
+                
+                this.kernel.loadToMemory(files[0]);
+            
+                // Scheduler
+                Pair pair = this.kernel.scheduler();
+            
+                // Dispatcher
+                PCB pcb = this.kernel.distpacher(pair);
+            
+                // Execution
+                this.kernel.execute(pcb);
+            } else {
+                JOptionPane.showMessageDialog(this, "Puede cargar más archivos antes de proceder.", 
+                "Cargar más archivos",JOptionPane.INFORMATION_MESSAGE);
+            }
+           
+            /**
             
             // Load to memory
             this.kernel.loadToMemory(files[0]);
@@ -127,6 +179,7 @@ public class UI extends javax.swing.JFrame {
             
             // Execution
             this.kernel.execute(pcb);
+            */
         }
         catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog", JOptionPane.ERROR_MESSAGE);
@@ -168,6 +221,10 @@ public class UI extends javax.swing.JFrame {
       }
     }//GEN-LAST:event_jMenuItemConfigActionPerformed
 
+    private void StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StartActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -207,6 +264,9 @@ public class UI extends javax.swing.JFrame {
     private Config config;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton Clean;
+    public javax.swing.JButton Start;
+    public javax.swing.JButton Step;
     private javax.swing.JFileChooser jFileChooserAsm;
     private javax.swing.JFileChooser jFileChooserConfig;
     private javax.swing.JMenu jMenu3;

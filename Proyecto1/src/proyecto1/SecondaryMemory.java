@@ -36,7 +36,7 @@ public class SecondaryMemory {
     public SecondaryMemory(int size, int virtualSize) {
         this.memorySize = size;
         this.virtualSize = virtualSize;
-        this.nextAddress = virtualSize; //virtualSize  Nota: Dudas sobre direccionamiento en base a la totalidad de la secundaria
+        this.nextAddress = virtualSize; 
         
         this.memoryArray = new Object[this.memorySize];
         this.fileIndex = new LinkedHashMap<>();
@@ -86,7 +86,7 @@ public class SecondaryMemory {
         System.out.println("File " + filename + " not found.");
         return null;
     }
-}
+  }
 
   /**
    * 
@@ -168,14 +168,20 @@ public class SecondaryMemory {
         }
     }
   }
+  public Map<String, Integer> getFileIndex() {
+    return this.fileIndex; // Devuelve el índice de archivos almacenados
+  }
+  public Object[] getMemoryArray() {
+    return this.memoryArray; // Devuelve todo el array de la memoria secundaria
+  }
 
 
-    /**
-     * Gets the starting address of the virtual memory.
-     * 
-     * @return The starting address of the virtual memory.
-     */
-    public int memoryBeginning() {
-        return this.virtualSize;
-    }
+  /**
+  * Gets the starting address of the virtual memory.
+  * 
+  * @return The starting address of the virtual memory.
+  */
+  public int memoryBeginning() {
+    return this.virtualSize;
+  }
 }
