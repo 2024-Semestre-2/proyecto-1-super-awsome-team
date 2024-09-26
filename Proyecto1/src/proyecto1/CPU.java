@@ -17,6 +17,7 @@ public class CPU {
     private int DX;
     private int AC;
     private int PC;
+    private int SP;
     private boolean Z;
     private Instruction IR;
     
@@ -27,6 +28,7 @@ public class CPU {
         this.DX = 0;
         this.AC = 0;
         this.PC = 0;
+        this.SP = 0;
         this.Z = false;
         this.IR = null;
     }
@@ -50,7 +52,7 @@ public class CPU {
         }
     }
     
-    public void execute(Instruction instruction){
+    public void execute(Instruction instruction, int stackBase, MainMemory memory){
         switch (instruction.operation) {
             case "MOV":
                 try {
@@ -113,17 +115,22 @@ public class CPU {
                     this.PC += Integer.valueOf(instruction.operands[0]);
                 }
                 break;
+            case "PUSH":
+                this.SP--;
+                break;
             default:
                 throw new IllegalArgumentException("Invalid operation: " + instruction.operation);
         }
     }
     
-    public void updateRegisters(int ax, int bx, int cx, int dx, int ac, int pc, boolean z, Instruction ir) {
+    public void updateRegisters(int ax, int bx, int cx, int dx, int ac, int pc, int sp, boolean z, Instruction ir) {
         this.AX = ax;
         this.BX = bx;
         this.CX = cx;
         this.DX = dx;
         this.AC = ac;
+        this.PC = pc;
+        this.SP = sp;
         this.Z = z;
         this.IR = ir;
     }
@@ -158,6 +165,10 @@ public class CPU {
     
     public int pc() {
         return this.PC;
+    }
+    
+    public int sp() {
+        return this.SP;
     }
     
     private int getValue(String register) {

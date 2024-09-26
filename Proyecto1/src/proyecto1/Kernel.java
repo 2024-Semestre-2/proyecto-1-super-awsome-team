@@ -109,16 +109,16 @@ public class Kernel {
     
     public void execute(PCB pcb) {
         // Load registers from pcb
-        this.cpu.updateRegisters(pcb.ax(), pcb.bx(), pcb.cx(), pcb.dx(), pcb.ac(), pcb.pc(), pcb.z(), pcb.ir());
+        this.cpu.updateRegisters(pcb.ax(), pcb.bx(), pcb.cx(), pcb.dx(), pcb.ac(), pcb.pc(), pcb.sp(), pcb.z(), pcb.ir());
         
         while (!pcb.reachedEnd()) {
             // Fetch
             Instruction ins = this.cpu.fetchInstruction(memory);
             System.out.println(ins.toString());
             // Decode, Execute
-            this.cpu.execute(ins);
+            this.cpu.execute(ins, pcb.getBaseStack(), memory);
             // Update PCB
-            pcb.updateRegisters(this.ax(), this.bx(), this.cx(), this.dx(), this.ac(), this.pc(), this.z(),this.ir());
+            pcb.updateRegisters(this.ax(), this.bx(), this.cx(), this.dx(), this.ac(), this.pc(), this. sp(), this.z(),this.ir());
             System.out.println(pcb.toString());
         }
         
@@ -156,6 +156,9 @@ public class Kernel {
     
     public int pc() {
         return this.cpu.pc();
+    }
+    public int sp() {
+        return this.cpu.sp();
     }
     
     public void newProcess() {

@@ -41,6 +41,7 @@ public class PCB {
     private int DX;
     private int AC;
     private int PC;
+    private int SP;
     private boolean Z;
     private Instruction IR;
     
@@ -63,16 +64,19 @@ public class PCB {
         this.DX = 0;
         this.AC = 0;
         this.PC = 0;
+        this.SP = 0;
         this.Z = false;
         this.IR = null;
     }
     
-    public void updateRegisters(int ax, int bx, int cx, int dx, int ac, int pc, boolean z, Instruction ir) {
+    public void updateRegisters(int ax, int bx, int cx, int dx, int ac, int pc, int sp, boolean z, Instruction ir) {
         this.AX = ax;
         this.BX = bx;
         this.CX = cx;
         this.DX = dx;
         this.AC = ac;
+        this.PC = pc;
+        this.SP = sp;
         this.Z = z;
         this.IR = ir;
     }
@@ -80,6 +84,7 @@ public class PCB {
     public void setStack(int stackSegmentIndex, int stackSegmentSize) {
         this.stackSegmentIndex = stackSegmentIndex;
         this.stackSegmentSize = stackSegmentSize;
+        this.SP = stackSegmentIndex + stackSegmentSize;
     }
     
     public void setNext(int next) {
@@ -113,6 +118,10 @@ public class PCB {
     // Retorna el tiempo empleado en ejecución en milisegundos
     public long getElapsedTimeMillis() {
       return this.elapsedTime.toMillis();
+    }
+    
+    public int getBaseStack() {
+        return this.stackSegmentIndex;
     }
     
     public int id() {
@@ -157,6 +166,10 @@ public class PCB {
     
     public int pc() {
         return this.PC;
+    }
+    
+    public int sp() {
+        return this.SP;
     }
     
     @Override
