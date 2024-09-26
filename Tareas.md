@@ -174,15 +174,15 @@
   - [x] CMP
   - [x] JE
   - [x] JNE
-  - [ ] PARAM
-  - [ ] PUSH
-  - [ ] POP
+  - [x] PARAM
+  - [x] PUSH
+  - [x] POP
   - [ ] **Modo de Ejecución Paso a Paso**
     - [ ] En el Modo Paso a Paso, ejecutar las instrucciones una por una. El usuario presiona un botón "Siguiente" para ejecutar cada instrucción.
     - [ ] Actualizar la interfaz gráfica (GUI) para mostrar el estado actual del PCB, los registros (IR, AC, PC), y la memoria.
-  - [ ] **Modo de Ejecución Automático**
-    - [ ] En el Modo Automático, ejecutar todas las instrucciones del proceso hasta que se complete o se bloquee por una interrupción o E/S.
-    - [ ] La interfaz gráfica muestra en tiempo real el estado de la memoria, los registros, y el PCB.
+  - [x] **Modo de Ejecución Automático**
+    - [x] En el Modo Automático, ejecutar todas las instrucciones del proceso hasta que se complete o se bloquee por una interrupción o E/S.
+    - [x] La interfaz gráfica muestra en tiempo real el estado de la memoria, los registros, y el PCB.
 
 - [ ] **Gestión de Interrupciones y E/S**
   - [ ] **Interrupciones**
