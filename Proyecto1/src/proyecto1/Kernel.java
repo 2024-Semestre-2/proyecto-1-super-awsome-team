@@ -4,11 +4,15 @@
  */
 package proyecto1;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.swing.DefaultListModel;
+import javax.swing.Timer;
 
 /**
  *
@@ -113,17 +117,35 @@ public class Kernel {
         
         while (!pcb.reachedEnd()) {
             // Fetch
-            Instruction ins = this.cpu.fetchInstruction(memory);
-            //System.out.println(ins.toString());
+            Instruction ins = cpu.fetchInstruction(memory);
+            System.out.println(ins.toString());
             // Decode, Execute
-            this.cpu.execute(ins, pcb.getBaseStack(), memory);
+            cpu.execute(ins, pcb.getBaseStack(), memory);
             // Update PCB
-            pcb.updateRegisters(this.ax(), this.bx(), this.cx(), this.dx(), this.ac(), this.pc(), this. sp(), this.z(),this.ir());
-            //System.out.println(pcb.toString());
+            pcb.updateRegisters(ax(), bx(), cx(), dx(), ac(), pc(), sp(), z(), ir());
+            System.out.println(pcb.toString());
         }
         
         pcb.updateState("terminated");
         System.out.println(pcb.toString());
+    }
+    
+    public void initExecution(PCB pcb) {
+        // Load registers from pcb
+        this.cpu.updateRegisters(pcb.ax(), pcb.bx(), pcb.cx(), pcb.dx(), pcb.ac(), pcb.pc(), pcb.sp(), pcb.z(), pcb.ir());
+    }
+    
+    public void nextExecution(PCB pcb) {
+        if (!pcb.reachedEnd()) {
+            // Fetch
+            Instruction ins = cpu.fetchInstruction(memory);
+            System.out.println(ins.toString());
+            // Decode, Execute
+            cpu.execute(ins, pcb.getBaseStack(), memory);
+            // Update PCB
+            pcb.updateRegisters(ax(), bx(), cx(), dx(), ac(), pc(), sp(), z(), ir());
+            System.out.println(pcb.toString());
+        }
     }
     
     public int ax() {

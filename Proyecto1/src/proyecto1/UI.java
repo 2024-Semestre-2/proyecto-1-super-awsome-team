@@ -166,7 +166,15 @@ public class UI extends javax.swing.JFrame {
                 PCB pcb = this.kernel.distpacher(pair);
             
                 // Execution
-                this.kernel.execute(pcb);
+                //this.kernel.execute(pcb);
+                this.kernel.initExecution(pcb);
+                jTextFieldAC.setText(String.valueOf(kernel.ac()));
+                            jTextFieldAX.setText(String.valueOf(kernel.ax()));
+                            jTextFieldBX.setText(String.valueOf(kernel.bx()));
+                            jTextFieldCX.setText(String.valueOf(kernel.cx()));
+                            jTextFieldDX.setText(String.valueOf(kernel.dx()));
+                            jTextFieldPC.setText(String.valueOf(kernel.pc()));
+                this.kernel.nextExecution(pcb);
             } else {
                 JOptionPane.showMessageDialog(this, "Puede cargar más archivos antes de proceder.", 
                 "Cargar más archivos",JOptionPane.INFORMATION_MESSAGE);
