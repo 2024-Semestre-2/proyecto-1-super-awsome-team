@@ -4,6 +4,8 @@
  */
 package proyecto1;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,9 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 
 /**
@@ -57,6 +61,28 @@ public class UI extends javax.swing.JFrame {
         Step = new javax.swing.JButton();
         Clean = new javax.swing.JButton();
         Statistics = new javax.swing.JButton();
+        jLabelRegister = new javax.swing.JLabel();
+        jLabelAC = new javax.swing.JLabel();
+        jTextFieldAC = new javax.swing.JTextField();
+        jLabelAX = new javax.swing.JLabel();
+        jTextFieldAX = new javax.swing.JTextField();
+        jLabelBX = new javax.swing.JLabel();
+        jTextFieldBX = new javax.swing.JTextField();
+        jLabelCX = new javax.swing.JLabel();
+        jTextFieldCX = new javax.swing.JTextField();
+        jLabelDX = new javax.swing.JLabel();
+        jTextFieldDX = new javax.swing.JTextField();
+        jLabelIR = new javax.swing.JLabel();
+        jTextFieldIR = new javax.swing.JTextField();
+        jLabelPC = new javax.swing.JLabel();
+        jTextFieldPC = new javax.swing.JTextField();
+        jLabelSP = new javax.swing.JLabel();
+        jTextFieldSP = new javax.swing.JTextField();
+        jLabelZ = new javax.swing.JLabel();
+        jTextFieldZ = new javax.swing.JTextField();
+        jLabelMemory = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListMemory = new javax.swing.JList<>();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemOpenFile = new javax.swing.JMenuItem();
@@ -82,6 +108,48 @@ public class UI extends javax.swing.JFrame {
         Clean.setText("Clean");
 
         Statistics.setText("Statistics");
+
+        jLabelRegister.setText("Registers");
+
+        jLabelAC.setText("AC");
+
+        jTextFieldAC.setEditable(false);
+
+        jLabelAX.setText("AX");
+
+        jTextFieldAX.setEditable(false);
+
+        jLabelBX.setText("BX");
+
+        jTextFieldBX.setEditable(false);
+
+        jLabelCX.setText("CX");
+
+        jTextFieldCX.setEditable(false);
+
+        jLabelDX.setText("DX");
+
+        jTextFieldDX.setEditable(false);
+
+        jLabelIR.setText("IR");
+
+        jTextFieldIR.setEditable(false);
+
+        jLabelPC.setText("PC");
+
+        jTextFieldPC.setEditable(false);
+
+        jLabelSP.setText("SP");
+
+        jTextFieldSP.setEditable(false);
+
+        jLabelZ.setText("Z");
+
+        jTextFieldZ.setEditable(false);
+
+        jLabelMemory.setText("Memory");
+
+        jScrollPane1.setViewportView(jListMemory);
 
         jMenu3.setText("File");
 
@@ -114,27 +182,99 @@ public class UI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(197, 197, 197)
-                .addComponent(Start)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Step)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Clean)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Statistics)
-                .addContainerGap(375, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Start)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Step)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Clean)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Statistics)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelRegister)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelAC)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldAC, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelAX)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldAX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelBX)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldBX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelCX)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldCX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelDX)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldDX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelPC)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldPC, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelSP)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldSP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelZ)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldZ, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelIR)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldIR, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabelMemory)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Start)
-                    .addComponent(Step)
-                    .addComponent(Clean)
-                    .addComponent(Statistics))
-                .addContainerGap(570, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelRegister)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelAC)
+                            .addComponent(jTextFieldAC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelAX)
+                            .addComponent(jTextFieldAX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelBX)
+                            .addComponent(jTextFieldBX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelCX)
+                            .addComponent(jTextFieldCX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelDX)
+                            .addComponent(jTextFieldDX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPC)
+                            .addComponent(jTextFieldPC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelSP)
+                            .addComponent(jTextFieldSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelZ)
+                            .addComponent(jTextFieldZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelIR)
+                            .addComponent(jTextFieldIR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Start)
+                        .addComponent(Step)
+                        .addComponent(Clean)
+                        .addComponent(Statistics)))
+                .addGap(18, 18, 18)
+                .addComponent(jLabelMemory)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        jLabelSP.getAccessibleContext().setAccessibleName("SP");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -168,13 +308,34 @@ public class UI extends javax.swing.JFrame {
                 // Execution
                 //this.kernel.execute(pcb);
                 this.kernel.initExecution(pcb);
-                jTextFieldAC.setText(String.valueOf(kernel.ac()));
+                ActionListener aL = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        if (!pcb.reachedEnd()) {
+                            kernel.nextExecution(pcb);
+                        } else {
+                            pcb.updateState("terminated");
+                        }
+                        jTextFieldAC.setText(String.valueOf(kernel.ac()));
                             jTextFieldAX.setText(String.valueOf(kernel.ax()));
                             jTextFieldBX.setText(String.valueOf(kernel.bx()));
                             jTextFieldCX.setText(String.valueOf(kernel.cx()));
                             jTextFieldDX.setText(String.valueOf(kernel.dx()));
                             jTextFieldPC.setText(String.valueOf(kernel.pc()));
-                this.kernel.nextExecution(pcb);
+                            jTextFieldSP.setText(String.valueOf(kernel.sp()));
+                            jTextFieldZ.setText(String.valueOf(kernel.z()));
+                            jTextFieldIR.setText(kernel.ir().operation);
+                            
+                            DefaultListModel<String> listModel = new DefaultListModel<>();
+                            listModel.addAll(kernel.getMemoryArray());
+                            jListMemory.setModel( listModel );
+                    }
+                };
+                
+                this.controller = new Timer(1110, aL);//create the timer which calls the actionperformed method for every 1000 millisecond(1 second=1000 millisecond)
+                this.controller.setRepeats(true);
+                this.controller.start();
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Puede cargar más archivos antes de proceder.", 
                 "Cargar más archivos",JOptionPane.INFORMATION_MESSAGE);
@@ -261,6 +422,7 @@ public class UI extends javax.swing.JFrame {
     
     private Kernel kernel;
     private Config config;
+    private Timer controller;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton Clean;
@@ -269,9 +431,31 @@ public class UI extends javax.swing.JFrame {
     public javax.swing.JButton Step;
     private javax.swing.JFileChooser jFileChooserAsm;
     private javax.swing.JFileChooser jFileChooserConfig;
+    private javax.swing.JLabel jLabelAC;
+    private javax.swing.JLabel jLabelAX;
+    private javax.swing.JLabel jLabelBX;
+    private javax.swing.JLabel jLabelCX;
+    private javax.swing.JLabel jLabelDX;
+    private javax.swing.JLabel jLabelIR;
+    private javax.swing.JLabel jLabelMemory;
+    private javax.swing.JLabel jLabelPC;
+    private javax.swing.JLabel jLabelRegister;
+    private javax.swing.JLabel jLabelSP;
+    private javax.swing.JLabel jLabelZ;
+    private javax.swing.JList<String> jListMemory;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItemOpenFile;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextFieldAC;
+    private javax.swing.JTextField jTextFieldAX;
+    private javax.swing.JTextField jTextFieldBX;
+    private javax.swing.JTextField jTextFieldCX;
+    private javax.swing.JTextField jTextFieldDX;
+    private javax.swing.JTextField jTextFieldIR;
+    private javax.swing.JTextField jTextFieldPC;
+    private javax.swing.JTextField jTextFieldSP;
+    private javax.swing.JTextField jTextFieldZ;
     // End of variables declaration//GEN-END:variables
 }
