@@ -114,12 +114,12 @@ public class Kernel {
         while (!pcb.reachedEnd()) {
             // Fetch
             Instruction ins = this.cpu.fetchInstruction(memory);
-            System.out.println(ins.toString());
+            //System.out.println(ins.toString());
             // Decode, Execute
             this.cpu.execute(ins, pcb.getBaseStack(), memory);
             // Update PCB
             pcb.updateRegisters(this.ax(), this.bx(), this.cx(), this.dx(), this.ac(), this.pc(), this. sp(), this.z(),this.ir());
-            System.out.println(pcb.toString());
+            //System.out.println(pcb.toString());
         }
         
         pcb.updateState("terminated");

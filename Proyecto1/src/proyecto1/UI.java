@@ -56,6 +56,7 @@ public class UI extends javax.swing.JFrame {
         Start = new javax.swing.JButton();
         Step = new javax.swing.JButton();
         Clean = new javax.swing.JButton();
+        Statistics = new javax.swing.JButton();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemOpenFile = new javax.swing.JMenuItem();
@@ -76,9 +77,11 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        Step.setText("Step");
+        Step.setText("Step by Step");
 
         Clean.setText("Clean");
+
+        Statistics.setText("Statistics");
 
         jMenu3.setText("File");
 
@@ -117,7 +120,9 @@ public class UI extends javax.swing.JFrame {
                 .addComponent(Step)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Clean)
-                .addContainerGap(512, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Statistics)
+                .addContainerGap(375, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,7 +131,8 @@ public class UI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Start)
                     .addComponent(Step)
-                    .addComponent(Clean))
+                    .addComponent(Clean)
+                    .addComponent(Statistics))
                 .addContainerGap(570, Short.MAX_VALUE))
         );
 
@@ -251,6 +257,7 @@ public class UI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton Clean;
     public javax.swing.JButton Start;
+    public javax.swing.JButton Statistics;
     public javax.swing.JButton Step;
     private javax.swing.JFileChooser jFileChooserAsm;
     private javax.swing.JFileChooser jFileChooserConfig;

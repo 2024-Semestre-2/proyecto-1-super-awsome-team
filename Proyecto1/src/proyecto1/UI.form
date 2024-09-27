@@ -86,7 +86,9 @@
               <Component id="Step" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="Clean" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="512" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="Statistics" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="375" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -98,6 +100,7 @@
                   <Component id="Start" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="Step" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="Clean" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="Statistics" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="570" max="32767" attributes="0"/>
           </Group>
@@ -118,7 +121,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="Step">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Step"/>
+        <Property name="text" type="java.lang.String" value="Step by Step"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -127,6 +130,14 @@
     <Component class="javax.swing.JButton" name="Clean">
       <Properties>
         <Property name="text" type="java.lang.String" value="Clean"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="Statistics">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Statistics"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
