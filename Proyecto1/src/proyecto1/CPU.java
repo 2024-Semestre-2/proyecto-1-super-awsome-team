@@ -4,7 +4,6 @@
  */
 package proyecto1;
 
-import java.util.Arrays;
 import static proyecto1.AsmLoader.isNumeric;
 
 /**

@@ -6,13 +6,7 @@ package proyecto1;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -83,6 +77,11 @@ public class UI extends javax.swing.JFrame {
         jLabelMemory = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListMemory = new javax.swing.JList<>();
+        jLabelMemory2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jListMemory2 = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemOpenFile = new javax.swing.JMenuItem();
@@ -106,6 +105,11 @@ public class UI extends javax.swing.JFrame {
         Step.setText("Step by Step");
 
         Clean.setText("Clean");
+        Clean.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CleanActionPerformed(evt);
+            }
+        });
 
         Statistics.setText("Statistics");
 
@@ -151,6 +155,14 @@ public class UI extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jListMemory);
 
+        jLabelMemory2.setText("Sec Memory");
+
+        jScrollPane2.setViewportView(jListMemory2);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane3.setViewportView(jTextArea1);
+
         jMenu3.setText("File");
 
         jMenuItemOpenFile.setText("Open File");
@@ -183,15 +195,18 @@ public class UI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Start)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Step)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Clean)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Statistics)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Start)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Step)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Clean)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Statistics))
+                            .addComponent(jScrollPane3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelRegister)
@@ -231,9 +246,18 @@ public class UI extends javax.swing.JFrame {
                                 .addComponent(jLabelIR)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldIR, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabelMemory)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(59, 59, 59))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelMemory)
+                                .addGap(538, 538, 538)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelMemory2)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,19 +286,24 @@ public class UI extends javax.swing.JFrame {
                             .addComponent(jTextFieldZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelIR)
                             .addComponent(jTextFieldIR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Start)
-                        .addComponent(Step)
-                        .addComponent(Clean)
-                        .addComponent(Statistics)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Start)
+                            .addComponent(Step)
+                            .addComponent(Clean)
+                            .addComponent(Statistics))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jLabelMemory)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelMemory)
+                    .addComponent(jLabelMemory2))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
-
-        jLabelSP.getAccessibleContext().setAccessibleName("SP");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -317,18 +346,23 @@ public class UI extends javax.swing.JFrame {
                             pcb.updateState("terminated");
                         }
                         jTextFieldAC.setText(String.valueOf(kernel.ac()));
-                            jTextFieldAX.setText(String.valueOf(kernel.ax()));
-                            jTextFieldBX.setText(String.valueOf(kernel.bx()));
-                            jTextFieldCX.setText(String.valueOf(kernel.cx()));
-                            jTextFieldDX.setText(String.valueOf(kernel.dx()));
-                            jTextFieldPC.setText(String.valueOf(kernel.pc()));
-                            jTextFieldSP.setText(String.valueOf(kernel.sp()));
-                            jTextFieldZ.setText(String.valueOf(kernel.z()));
-                            jTextFieldIR.setText(kernel.ir().operation);
+                        jTextFieldAX.setText(String.valueOf(kernel.ax()));
+                        jTextFieldBX.setText(String.valueOf(kernel.bx()));
+                        jTextFieldCX.setText(String.valueOf(kernel.cx()));
+                        jTextFieldDX.setText(String.valueOf(kernel.dx()));
+                        jTextFieldPC.setText(String.valueOf(kernel.pc()));
+                        jTextFieldSP.setText(String.valueOf(kernel.sp()));
+                        jTextFieldZ.setText(String.valueOf(kernel.z()));
+                        jTextFieldIR.setText(kernel.ir().operation);
                             
-                            DefaultListModel<String> listModel = new DefaultListModel<>();
-                            listModel.addAll(kernel.getMemoryArray());
-                            jListMemory.setModel( listModel );
+                        DefaultListModel<String> listModel = new DefaultListModel<>();
+                        listModel.addAll(kernel.getMemoryArray());
+                            
+                        DefaultListModel<String> listModel2 = new DefaultListModel<>();
+                        listModel.addAll(kernel.getSecMemoryArray());
+                            
+                        jListMemory.setModel( listModel );
+                        jListMemory2.setModel( listModel2 );
                     }
                 };
                 
@@ -385,6 +419,29 @@ public class UI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_StartActionPerformed
 
+    private void CleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CleanActionPerformed
+        this.kernel = new Kernel(this.config);
+        jTextFieldAC.setText("");
+        jTextFieldAX.setText("");
+        jTextFieldBX.setText("");
+        jTextFieldCX.setText("");
+        jTextFieldDX.setText("");
+        jTextFieldPC.setText("");
+        jTextFieldSP.setText("");
+        jTextFieldZ.setText("");
+        jTextFieldIR.setText("");
+        this.controller.stop();
+        
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        listModel.addAll(kernel.getMemoryArray());
+                            
+        DefaultListModel<String> listModel2 = new DefaultListModel<>();
+        listModel.addAll(kernel.getSecMemoryArray());
+                            
+        jListMemory.setModel( listModel );
+        jListMemory2.setModel( listModel2 );
+    }//GEN-LAST:event_CleanActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -438,16 +495,21 @@ public class UI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelDX;
     private javax.swing.JLabel jLabelIR;
     private javax.swing.JLabel jLabelMemory;
+    private javax.swing.JLabel jLabelMemory2;
     private javax.swing.JLabel jLabelPC;
     private javax.swing.JLabel jLabelRegister;
     private javax.swing.JLabel jLabelSP;
     private javax.swing.JLabel jLabelZ;
     private javax.swing.JList<String> jListMemory;
+    private javax.swing.JList<String> jListMemory2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItemOpenFile;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextFieldAC;
     private javax.swing.JTextField jTextFieldAX;
     private javax.swing.JTextField jTextFieldBX;

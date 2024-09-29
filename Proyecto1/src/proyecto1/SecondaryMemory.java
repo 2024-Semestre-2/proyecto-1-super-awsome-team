@@ -6,9 +6,12 @@ package proyecto1;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -168,13 +171,14 @@ public class SecondaryMemory {
         }
     }
   }
+  
   public Map<String, Integer> getFileIndex() {
     return this.fileIndex; // Devuelve el índice de archivos almacenados
   }
+  
   public Object[] getMemoryArray() {
     return this.memoryArray; // Devuelve todo el array de la memoria secundaria
   }
-
 
   /**
   * Gets the starting address of the virtual memory.
@@ -184,4 +188,8 @@ public class SecondaryMemory {
   public int memoryBeginning() {
     return this.virtualSize;
   }
+  
+  public List<String> getMemoryArrayDisplay() {
+        return Arrays.asList(this.memoryArray).stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
+    }
 }

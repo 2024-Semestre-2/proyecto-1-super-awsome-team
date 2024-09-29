@@ -6,9 +6,7 @@ package proyecto1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -149,15 +147,15 @@ public class MainMemory {
       }
       System.out.println("Memory freed from address " + address + " to " + (address + size));
     }
-  
-    
     
     public List<String> getMemoryArray() {
         return Arrays.asList(this.memoryArray).stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
     }
+    
     public int getNextProcessId() {
         return processCounter++;
     }
+    
     public int instructionAddresSize() {
         return this.userSegmentSize;
     }

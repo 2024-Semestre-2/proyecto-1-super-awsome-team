@@ -4,15 +4,8 @@
  */
 package proyecto1;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import javax.swing.DefaultListModel;
-import javax.swing.Timer;
 
 /**
  *
@@ -105,6 +98,10 @@ public class Kernel {
     
     public List<String> getMemoryArray() {
         return this.memory.getMemoryArray();
+    }
+    
+    public List<String> getSecMemoryArray() {
+        return this.sMemory.getMemoryArrayDisplay();
     }
     
     public Instruction peekInstruction() {
