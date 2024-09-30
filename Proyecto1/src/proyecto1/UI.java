@@ -7,6 +7,8 @@ package proyecto1;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -21,7 +23,7 @@ import javax.swing.Timer;
  * @author someone
  */
 public class UI extends javax.swing.JFrame {
-
+    int count;
     /**
      * Creates new form UI
      */
@@ -309,79 +311,88 @@ public class UI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenFileActionPerformed
-      int returnVal = jFileChooserAsm.showOpenDialog(this);
-      if (returnVal == JFileChooser.APPROVE_OPTION) {
+          int returnVal = jFileChooserAsm.showOpenDialog(this);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
         File[] files = jFileChooserAsm.getSelectedFiles();
-        try {
-            
-            // Load to secondary memory
-            this.kernel.load(files);
-            
-            
-            // Select file  Section 
-            int response = JOptionPane.showConfirmDialog(this,"¿Desea continuar con el procesamiento de los archivos cargados?", 
-            "Confirmación", JOptionPane.YES_NO_OPTION);
-            
+        try {           
+            // Cargar a la memoria secundaria
+            this.kernel.loadToSecMemory(files);
+
+            // Confirmación para proceder con los archivos
+            int response = JOptionPane.showConfirmDialog(this, 
+                "¿Desea continuar con el procesamiento de los archivos cargados?", 
+                "Confirmación", JOptionPane.YES_NO_OPTION);
+
             if (response == JOptionPane.YES_OPTION) {
                 System.out.println("Cargando");
-                // Load to memory
-                
-                this.kernel.loadToMemory(files[0]);
-            
-                // Scheduler
-                Pair pair = this.kernel.scheduler();
-            
-                // Dispatcher
-                PCB pcb = this.kernel.distpacher(pair);
-            
-                // Execution
-                //this.kernel.execute(pcb);
-                this.kernel.initExecution(pcb);
-                ActionListener aL = new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent ae) {
-                        if (!pcb.reachedEnd()) {
-                            kernel.nextExecution(pcb);
-                        } else {
-                            pcb.updateState("terminated");
-                        }
-                        jTextFieldAC.setText(String.valueOf(kernel.ac()));
-                        jTextFieldAX.setText(String.valueOf(kernel.ax()));
-                        jTextFieldBX.setText(String.valueOf(kernel.bx()));
-                        jTextFieldCX.setText(String.valueOf(kernel.cx()));
-                        jTextFieldDX.setText(String.valueOf(kernel.dx()));
-                        jTextFieldPC.setText(String.valueOf(kernel.pc()));
-                        jTextFieldSP.setText(String.valueOf(kernel.sp()));
-                        jTextFieldZ.setText(String.valueOf(kernel.z()));
-                        jTextFieldIR.setText(kernel.ir().operation);
-                            
-                        DefaultListModel<String> listModel = new DefaultListModel<>();
-                        listModel.addAll(kernel.getMemoryArray());
-                            
-                        DefaultListModel<String> listModel2 = new DefaultListModel<>();
-                        listModel.addAll(kernel.getSecMemoryArray());
-                            
-                        jListMemory.setModel( listModel );
-                        jListMemory2.setModel( listModel2 );
+
+                for(int i = 0; i < this.kernel.sizeIndex(); i++) {
+                    List<Expression> firstFileContent = kernel.getSecondaryMemory().getFirstFileContent();
+                    if (firstFileContent != null) {
+                        // Cargar en memoria principal
+                        this.kernel.loadToMemory(firstFileContent);
+                        
+                        // Planificador
+                        Pair pair = this.kernel.scheduler();
+                        
+                        // Despachador
+                        PCB pcb = this.kernel.distpacher(pair);
+
+                        // Ejecución
+                        this.kernel.initExecution(pcb);
+                        
+                        // Configurar temporizador para ejecutar proceso y actualizar la interfaz
+                        ActionListener aL = new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent ae) {
+                                if (!pcb.reachedEnd()) {
+                                    kernel.nextExecution(pcb);
+                                } else {
+                                    pcb.updateState("terminated");
+                                    System.out.println("Se termino de evaluar archivo");
+                                    kernel.liberaMemor(pcb.programCodeIndex(),pcb.getProgramCodeSize()); // Liberar memoria principal
+                                    kernel.liberaMemor(pcb.getStackSegmentIndex(),pcb.getSegmentStackSize()); // liberar stack
+                                    kernel.removeSecundaryMemo();  // Eliminar archivo de la memoria secundaria
+                                }
+                                // Actualizar interfaz de registros
+                                jTextFieldAC.setText(String.valueOf(kernel.ac()));
+                                jTextFieldAX.setText(String.valueOf(kernel.ax()));
+                                jTextFieldBX.setText(String.valueOf(kernel.bx()));
+                                jTextFieldCX.setText(String.valueOf(kernel.cx()));
+                                jTextFieldDX.setText(String.valueOf(kernel.dx()));
+                                jTextFieldPC.setText(String.valueOf(kernel.pc()));
+                                jTextFieldSP.setText(String.valueOf(kernel.sp()));
+                                jTextFieldZ.setText(String.valueOf(kernel.z()));
+                                jTextFieldIR.setText(kernel.ir().operation);
+
+                                // Actualizar memoria principal
+                                DefaultListModel<String> listModel = new DefaultListModel<>();
+                                listModel.addAll(kernel.getMemoryArray());
+                                jListMemory.setModel(listModel);
+                                
+                                // Actualizar memoria secundaria
+                                DefaultListModel<String> listModel2 = new DefaultListModel<>();
+                                listModel2.addAll(kernel.getSecMemoryArray());
+                                jListMemory2.setModel(listModel2);
+                            }
+                        };
+
+                        // Temporizador para ejecución
+                        this.controller = new Timer(1110, aL);
+                        this.controller.setRepeats(true);
+                        this.controller.start();
                     }
-                };
-                
-                this.controller = new Timer(1110, aL);//create the timer which calls the actionperformed method for every 1000 millisecond(1 second=1000 millisecond)
-                this.controller.setRepeats(true);
-                this.controller.start();
-                
+                } 
             } else {
                 JOptionPane.showMessageDialog(this, "Puede cargar más archivos antes de proceder.", 
-                "Cargar más archivos",JOptionPane.INFORMATION_MESSAGE);
+                    "Cargar más archivos", JOptionPane.INFORMATION_MESSAGE);
             }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog", JOptionPane.ERROR_MESSAGE);
-        }
-      } 
-      else {
+    } else {
         System.out.println("File access cancelled by user.");
-      }
+    }
 
     }//GEN-LAST:event_jMenuItemOpenFileActionPerformed
 

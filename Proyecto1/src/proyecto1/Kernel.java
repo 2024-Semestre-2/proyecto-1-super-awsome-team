@@ -66,11 +66,45 @@ public class Kernel {
         this.sMemory.printFileIndex();
     }
     
+    // Carga a memoria secundaria 
+    public void loadToSecMemory(File[] files) {
+        for (int i = 0; i < files.length; i++) {
+            AsmLoader loader = new AsmLoader();
+            List<Expression> list = loader.loadFile(files[i].getAbsolutePath());
+            
+            // Store file data in secondary memory and update index.
+            this.sMemory.store(files[i].getName(), list);
+        }
+        this.sMemory.printFileIndex();
+    }
+
+    // accede al primer elemento en memoria secundaria segun por la posicion 
+    public List<Expression> getFileData(int address) {
+        return (List<Expression>) this.sMemory.retrieve(address);
+    }
     
-    
-    public void loadToMemory(File file) {
-        AsmLoader loader = new AsmLoader();
-        List<Expression> list = loader.loadFile(file.getAbsolutePath());
+
+    // Printe contenido de memoria secundaria
+    public void printSecMemoryContents() {
+        this.sMemory.printMemoryContents();
+    }
+
+    // remueve el primer elemento de la memoria secundaria 
+    public void removeSecundaryMemo() {
+      this.sMemory.removeFirstFile();    
+    }
+
+    public int sizeIndex() {
+      return this.sMemory.LengArray();    
+    }
+
+    public void liberaMemor(int adress , int size) {
+      this.memory.freeMemory(adress, size);
+    }
+      
+    public void loadToMemory(List<Expression> list) {
+        //AsmLoader loader = new AsmLoader();
+        //List<Expression> list = loader.loadFile(file.getAbsolutePath());
         
         // ================= New Process creation =================
         // Memory allocation

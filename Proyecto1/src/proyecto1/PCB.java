@@ -171,6 +171,25 @@ public class PCB {
     public int sp() {
         return this.SP;
     }
+
+    public int  getProgramCodeSize() {
+        return this.programCodeSize;
+    }
+
+    public int getProgramCodeIndex() {
+        return this.programCodeIndex;
+    }
+    public int getId (){
+        return this.ID;
+    }
+
+    public int getStackSegmentIndex() {
+        return this.stackSegmentIndex;
+    }
+
+    public int getSegmentStackSize() {
+        return this.stackSegmentSize;
+    }
     
     @Override
     public String toString(){

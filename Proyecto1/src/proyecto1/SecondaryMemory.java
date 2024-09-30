@@ -68,10 +68,10 @@ public class SecondaryMemory {
         this.fileIndex.put(filename, this.nextAddress);
         this.nextAddress++;
     }
-
+    
     public void printMemoryContents() {
-        System.out.println("Memory Contents:");
-        for (int i = virtualSize; i < memorySize; i++) {
+        System.out.println("\nMemory Contents:");
+        for (int i = virtualSize-1; i < memorySize; i++) {
             System.out.println("Address " + i + ": " + this.memoryArray[i]);
         }
     }
@@ -81,6 +81,7 @@ public class SecondaryMemory {
             System.out.println("File: " + entry.getKey() + ", Address: " + entry.getValue());
         }
     }
+
     public Object retrieve(String filename) {
       if (fileIndex.containsKey(filename)) {
         int address = fileIndex.get(filename);
@@ -88,56 +89,59 @@ public class SecondaryMemory {
       } else {
         System.out.println("File " + filename + " not found.");
         return null;
+      }
     }
-  }
 
-  /**
-   * 
-   * @param filenames, lista de nombres a buscar 
-   * @return Lista de archivos disponibles para ser cargados a memoria principal 
-   */    
-  public List<String> selectFiles(List<String> filenames) {
-    List<String> selectedFiles = new ArrayList<>();  
-    // Recorremos los nombres proporcionados
-    for (String filename : filenames) {
-        if (fileIndex.containsKey(filename)) {
-            selectedFiles.add(filename);
+    public List<Expression> getFirstFileContent() {
+        // Verificar si hay archivos en la memoria secundaria
+        if (!fileIndex.isEmpty()) {
+            // Obtener el primer archivo en la cola
+            String firstFile = fileIndex.keySet().iterator().next();
+            
+
+            // Recuperar el contenido del archivo desde la memoria
+            return (List<Expression>) retrieve(firstFile);
         } else {
-            System.out.println("El archivo " + filename + " no existe en memoria secundaria.");
+            System.out.println("No hay archivos en la memoria secundaria.");
+            return null;
         }
     }
-    // Retorna la lista de archivos seleccionados que sí existen en la memoria secundaria
-    return selectedFiles;
-  }
-
-
-  public void removeFile(String filename) {
-    // Verificar si el archivo existe en el índice
-    if (fileIndex.containsKey(filename)) {
-        // Obtener la dirección de memoria del archivo
-        int address = fileIndex.get(filename);
-        
-        // Eliminar el archivo del índice
-        fileIndex.remove(filename);
-        
-        // Liberar el espacio de memoria donde estaba el archivo
-        memoryArray[address] = null;
-        
-        // Ajustar las direcciones de los archivos que están después del archivo eliminado
-        // para evitar fragmentación.
-        for (int i = address + 1; i < nextAddress; i++) {
-            memoryArray[i - 1] = memoryArray[i]; // Mover archivo a la dirección anterior
-            memoryArray[i] = null; // Limpiar la dirección actual
-        }
-        
-        // Actualizar la siguiente dirección disponible
-        nextAddress--;
-        
-        System.out.println("Archivo " + filename + " eliminado exitosamente.");
-    } else {
-        System.out.println("El archivo " + filename + " no existe.");
+    
+    // retorna primer elemento de la lista en la direccion de memoria
+    public Object retrieve(int address) {
+        return memoryArray[address];
     }
-  }
+
+    public void removeFirstFile() {
+        // Verificar si hay archivos en la memoria secundaria
+        if (!fileIndex.isEmpty()) {
+            // Obtener el primer archivo en la cola
+            String firstFile = fileIndex.keySet().iterator().next();
+            // Obtener la dirección de memoria del archivo
+            int address = fileIndex.get(firstFile);
+            
+            // Eliminar el archivo del índice
+            fileIndex.remove(firstFile);
+            
+            // Eliminar el contenido del archivo de la memoria secundaria
+            memoryArray[address] = null;
+    
+            // Reorganizar la memoria
+            for (int i = address + 1; i < nextAddress; i++) {
+                memoryArray[i - 1] = memoryArray[i]; // Mover archivo a la dirección anterior
+                memoryArray[i] = null; // Limpiar la dirección actual
+            }
+            
+            // Actualizar la próxima dirección disponible en memoria secundaria
+            nextAddress--;
+    
+            System.out.println("El archivo " + firstFile + " ha sido eliminado de la memoria secundaria.");
+            
+        } else {
+            System.out.println("No hay archivos en la memoria secundaria para eliminar.");
+        }
+    }
+    
   
   public void loadSelectedFilesToMemory(MainMemory mainMemory, List<String> selectedFiles) {
     for (String filename : selectedFiles) {
@@ -188,7 +192,13 @@ public class SecondaryMemory {
   public int memoryBeginning() {
     return this.virtualSize;
   }
-  
+
+  //  retorna tamaño del array 
+  public int LengArray(){ 
+    return fileIndex.size();     
+  } 
+
+
   public List<String> getMemoryArrayDisplay() {
         return Arrays.asList(this.memoryArray).stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
     }
