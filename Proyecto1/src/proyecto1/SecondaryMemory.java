@@ -23,57 +23,75 @@ import java.util.stream.Collectors;
  * including an index for files.
  */
 public class SecondaryMemory {
-    private Object[] memoryArray;
-    private int nextAddress;
-    private int memorySize;
-    private int virtualSize;
-    private Map<String, Integer> fileIndex; // Indice para nombres y direccion
-    private final int maxFiles = 5; // Máximo de 5 archivos permitidos
-    
-    /**
+  private Object[] memoryArray;
+  private int nextAddress;
+  private int memorySize;
+  private int virtualSize;
+  private Map<String, Integer> fileIndex; // Indice para nombres y direccion
+  private final int maxFiles = 5; // Máximo de 5 archivos permitidos
+  
+  /**
     * Constructs a SecondaryMemory with the given size and virtual memory size.
     * 
     * @param size The size of the secondary memory.
     * @param virtualSize The starting address of the virtual memory.
     */
-    public SecondaryMemory(int size, int virtualSize) {
-        this.memorySize = size;
-        this.virtualSize = virtualSize;
-        this.nextAddress = virtualSize; 
+  public SecondaryMemory(int size, int virtualSize) {
+    this.memorySize = size;
+    this.virtualSize = virtualSize;
+    this.nextAddress = virtualSize; 
         
-        this.memoryArray = new Object[this.memorySize];
-        this.fileIndex = new LinkedHashMap<>();
-
-    }
+    this.memoryArray = new Object[this.memorySize];
+    this.fileIndex = new LinkedHashMap<>();
+   }
  
-    /**
-     * Stores data in the memory at the next available address and updates the index.
-     * 
-     * @param filename The name of the file to be stored.
-     * @param data The data to store.
-     * @throws ArrayIndexOutOfBoundsException if trying to store data beyond memory size.
-     */
-    public void store(String filename, Object data) {
-        if (fileIndex.size() >= maxFiles) {
-            throw new IllegalStateException("Maximum file limit reached. Cannot store more than " + maxFiles + " files.");
-        }
-        if (fileIndex.containsKey(filename)) {
-            System.out.println("File " + filename + " already exists. Overwriting...");
-        }
-        if (nextAddress >= memorySize) {
-            throw new ArrayIndexOutOfBoundsException("Memory full, cannot store data.");
-        }
 
-        this.memoryArray[this.nextAddress-1] = data;
-        this.fileIndex.put(filename, this.nextAddress);
-        this.nextAddress++;
+  /**
+   * Almacena un archivo en memoria secundaria
+   * @param filename Nombre del archivo
+   * @param data Contenido del archivo
+   */ 
+  public void store(String filename, Object data) {
+    if (fileIndex.size() >= maxFiles) {
+        throw new IllegalStateException("Límite máximo de archivos alcanzado. No se pueden almacenar más de " + maxFiles + " archivos.");
     }
 
-    public void printMemoryContents() {
-        System.out.println("Memory Contents:");
-        for (int i = virtualSize; i < memorySize; i++) {
-            System.out.println("Address " + i + ": " + this.memoryArray[i]);
+    int startingAddress = nextAddress; // Guardar la dirección inicial
+
+    // Verificar si el archivo es una lista de instrucciones
+    if (data instanceof List<?>) {
+        List<?> fileContent = (List<?>) data;
+        // Verificar que haya suficiente espacio disponible
+        if (nextAddress + fileContent.size() - 1 >= memorySize) {
+            throw new ArrayIndexOutOfBoundsException("No hay suficiente espacio en memoria secundaria.");
         }
+        // Almacenar cada instrucción en las direcciones consecutivas, como en la memoria principal
+        for (Object obj : fileContent) {
+            this.memoryArray[this.nextAddress++] = obj;
+        }
+    } else {
+        // Almacenar un solo objeto si no es una lista
+        if (nextAddress >= memorySize) {
+            throw new ArrayIndexOutOfBoundsException("Memoria llena, no se puede almacenar el archivo.");
+        }
+        this.memoryArray[this.nextAddress++] = data;
+    }
+
+    // Actualizar el índice de archivos con la dirección inicial, no con la final
+    this.fileIndex.put(filename, startingAddress);
+}
+
+    
+    
+  /**
+   * Imprime el contenido de la memoria secundaria
+   * @param memoryArray Arreglo de memoria secundaria
+   */
+  public void printMemoryContents() {
+    System.out.println("Memory Contents:");
+      for (int i = virtualSize; i < memorySize; i++) {
+        System.out.println("Address " + i + ": " + this.memoryArray[i]);
+      }
     }
     public void printFileIndex() {
         System.out.println("\n--ASM Files Index--");
@@ -110,35 +128,41 @@ public class SecondaryMemory {
     return selectedFiles;
   }
 
-
+  /**
+    * Elimina un archivo de la memoria secundaria
+    * @param filename Nombre del archivo a eliminar
+    */ 
   public void removeFile(String filename) {
     // Verificar si el archivo existe en el índice
     if (fileIndex.containsKey(filename)) {
-        // Obtener la dirección de memoria del archivo
-        int address = fileIndex.get(filename);
+      // Obtener la dirección de memoria del archivo
+      int address = fileIndex.get(filename);
         
-        // Eliminar el archivo del índice
-        fileIndex.remove(filename);
+       // Eliminar el archivo del índice
+       fileIndex.remove(filename);
         
-        // Liberar el espacio de memoria donde estaba el archivo
-        memoryArray[address] = null;
+       // Liberar el espacio de memoria donde estaba el archivo
+       memoryArray[address] = null;
         
-        // Ajustar las direcciones de los archivos que están después del archivo eliminado
-        // para evitar fragmentación.
-        for (int i = address + 1; i < nextAddress; i++) {
-            memoryArray[i - 1] = memoryArray[i]; // Mover archivo a la dirección anterior
-            memoryArray[i] = null; // Limpiar la dirección actual
-        }
-        
-        // Actualizar la siguiente dirección disponible
-        nextAddress--;
-        
-        System.out.println("Archivo " + filename + " eliminado exitosamente.");
+       // Ajustar las direcciones de los archivos que están después del archivo eliminado
+       // para evitar fragmentación.
+       for (int i = address + 1; i < nextAddress; i++) {
+         memoryArray[i - 1] = memoryArray[i]; // Mover archivo a la dirección anterior
+         memoryArray[i] = null; // Limpiar la dirección actual
+       }        
+       // Actualizar la siguiente dirección disponible
+       nextAddress--; 
+       System.out.println("Archivo " + filename + " eliminado exitosamente.");
     } else {
         System.out.println("El archivo " + filename + " no existe.");
     }
   }
   
+  /**
+    * Carga los archivos seleccionados a la memoria principal
+    * @param mainMemory Memoria principal
+    * @param selectedFiles Lista de archivos seleccionados
+    */
   public void loadSelectedFilesToMemory(MainMemory mainMemory, List<String> selectedFiles) {
     for (String filename : selectedFiles) {
         // Recuperar el archivo desde la memoria secundaria
@@ -171,11 +195,19 @@ public class SecondaryMemory {
         }
     }
   }
-  
+
+  /**
+   * Carga los archivos seleccionados a la memoria principal
+   * @return Lista de archivos cargados a la memoria principal
+   */
   public Map<String, Integer> getFileIndex() {
     return this.fileIndex; // Devuelve el índice de archivos almacenados
   }
   
+  /**
+    * Obtiene el contenido de la memoria secundaria
+    * @return Contenido de la memoria secundaria
+    */
   public Object[] getMemoryArray() {
     return this.memoryArray; // Devuelve todo el array de la memoria secundaria
   }
@@ -189,7 +221,40 @@ public class SecondaryMemory {
     return this.virtualSize;
   }
   
-  public List<String> getMemoryArrayDisplay() {
-        return Arrays.asList(this.memoryArray).stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
+  public List<Expression> getFileInstructions(String filename) {
+    int address = fileIndex.get(filename); // Obtener la dirección inicial del archivo
+    List<Expression> instructions = new ArrayList<>();
+
+    // Recorremos la memoria desde la dirección inicial hasta que no haya más instrucciones
+    while (memoryArray[address] != null && memoryArray[address] instanceof Expression) {
+        instructions.add((Expression) memoryArray[address]);
+        address++;
     }
+
+    return instructions; // Retorna la lista de instrucciones
+  }
+  // Método público para obtener los nombres de los archivos en la memoria secundaria
+    public List<String> getFileNames() {
+        return new ArrayList<>(fileIndex.keySet()); // Retorna los nombres de los archivos almacenados en memoria secundaria
+    }
+  /**
+   * Obtiene una lista de instrucciones de los archivos almacenados en memoria secundaria
+   * @return Lista de instrucciones de los archivos almacenados
+   */
+  public List<String> getMemoryArrayDisplay() {
+    List<String> displayList = new ArrayList<>();
+    for (Map.Entry<String, Integer> entry : fileIndex.entrySet()) {
+        String filename = entry.getKey();
+        List<Expression> instructions = (List<Expression>) memoryArray[entry.getValue()]; // Recuperar las instrucciones
+        
+        displayList.add("File: " + filename); // Mostrar el nombre del archivo
+        
+        // Recorrer las instrucciones y agregarlas a la lista de visualización
+        for (Expression instruction : instructions) {
+            displayList.add("  Line: " + instruction.row + " | " + instruction.operation + " " + Arrays.toString(instruction.operands));
+        }
+    }
+    return displayList;
+  }
+
 }

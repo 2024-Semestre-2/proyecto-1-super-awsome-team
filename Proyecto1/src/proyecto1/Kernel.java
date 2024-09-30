@@ -53,7 +53,15 @@ public class Kernel {
         
         return pcb;
     }
-    
+    // Método para obtener los nombres de los archivos en la memoria secundaria
+    public List<String> getSecondaryFileNames() {
+        return sMemory.getFileNames(); // Llama al método de SecondaryMemory
+    }
+
+    // Método para obtener las instrucciones de un archivo en memoria secundaria
+    public List<Expression> getFileInstructions(String filename) {
+        return sMemory.getFileInstructions(filename); // Llama al método de SecondaryMemory
+    }
     public void load(File[] files) {                                
         for (File file : files) { //(int i = 0; i < files.length; i++)                     
             AsmLoader loader = new AsmLoader();
@@ -61,9 +69,9 @@ public class Kernel {
             
             // Store file data in secondary memory and update index.
             this.sMemory.store(file.getName(), list);
-            // nota: guardemos primero en disco y luego creamos una funcion que selecciona que archivo o archivos son los que se van a leer y luego eso lo guardamos a memoria
-        }
+            }
         this.sMemory.printFileIndex();
+        
     }
     
     
