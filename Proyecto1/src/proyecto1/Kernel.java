@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Kernel {
     private MainMemory memory;
-    private SecondaryMemory sMemory;
+    public SecondaryMemory sMemory;
     private CPU cpu;
     private int processCounter;
     
@@ -58,13 +58,13 @@ public class Kernel {
         for (File file : files) { //(int i = 0; i < files.length; i++)                     
             AsmLoader loader = new AsmLoader();
             List<Expression> list = loader.loadFile(file.getAbsolutePath());
-            
+
             // Store file data in secondary memory and update index.
             this.sMemory.store(file.getName(), list);
-            // nota: guardemos primero en disco y luego creamos una funcion que selecciona que archivo o archivos son los que se van a leer y luego eso lo guardamos a memoria
         }
-        this.sMemory.printFileIndex();
+        this.sMemory.printFileIndex();     
     }
+    
     public void liberaMemor(int adress , int size) {
       this.memory.freeMemory(adress, size);
     }
@@ -109,7 +109,9 @@ public class Kernel {
     }
     
     public List<String> getSecMemoryArray() {
+        System.out.println("Sss"+ sMemory.getMemoryArrayDisplay());
         return this.sMemory.getMemoryArrayDisplay();
+        
     }
     
     public Instruction peekInstruction() {

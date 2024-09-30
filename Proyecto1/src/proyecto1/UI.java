@@ -316,6 +316,7 @@ public class UI extends javax.swing.JFrame {
         try {           
             // Load to secondary memory
             this.kernel.load(files);
+            
             // Select file  Section 
             int response = JOptionPane.showConfirmDialog(this,"¿Desea continuar con el procesamiento de los archivos cargados?", 
             "Confirmación", JOptionPane.YES_NO_OPTION);  
@@ -364,9 +365,10 @@ public class UI extends javax.swing.JFrame {
                         listModel.addAll(kernel.getMemoryArray());
                         jListMemory.setModel( listModel );   
                         
-                        DefaultListModel<String> listModel2 = new DefaultListModel<>();
-                        listModel.addAll(kernel.getSecMemoryArray());         
+                        DefaultListModel<String> listModel2 = new DefaultListModel<>();                       
+                        listModel2.addAll(kernel.getSecMemoryArray());         
                         jListMemory2.setModel( listModel2 );
+                        System.out.println("Probanddo "+ listModel2);
                     }                     
                   };               
                   this.controller = new Timer(1110, aL);//create the timer which calls the actionperformed method for every 1000 millisecond(1 second=1000 millisecond)

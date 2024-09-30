@@ -66,7 +66,7 @@ public class SecondaryMemory {
 
         this.memoryArray[this.nextAddress-1] = data;
         this.fileIndex.put(filename, this.nextAddress);
-        this.nextAddress++;
+        this.nextAddress++;   
     }
 
     public void printMemoryContents() {
