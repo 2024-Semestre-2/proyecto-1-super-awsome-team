@@ -65,12 +65,20 @@ public class Kernel {
         }
         this.sMemory.printFileIndex();
     }
+    public void liberaMemor(int adress , int size) {
+      this.memory.freeMemory(adress, size);
+    }
+    public void removeSecundaryMemo() {
+      this.sMemory.removeFirstFile();    
+    }
+    public int sizeIndex() {
+      return this.sMemory.LengArray();    
+    }
     
     
-    
-    public void loadToMemory(File file) {
-        AsmLoader loader = new AsmLoader();
-        List<Expression> list = loader.loadFile(file.getAbsolutePath());
+    public void loadToMemory(List<Expression> list) {
+        //AsmLoader loader = new AsmLoader();
+        //List<Expression> list = loader.loadFile(file.getAbsolutePath());
         
         // ================= New Process creation =================
         // Memory allocation

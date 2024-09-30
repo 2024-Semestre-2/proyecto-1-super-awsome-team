@@ -121,8 +121,8 @@ public class MainMemory {
     }
     
     public void loadProcess(PCB process) {
-        System.out.println("Evaluamos:"+this.nextOsSegmentAddress+" Con:"+osSegmentSize);
-        if (this.nextOsSegmentAddress > osSegmentSize) {
+        System.out.println("Evaluamos:"+this.nextOsSegmentAddress+" Con:"+memorySize);
+        if (this.nextOsSegmentAddress > memorySize) {
             throw new IllegalArgumentException("Out-of-bounds memory address, not enough space in OS memory");
         }
         // Include the memory address on the pcb

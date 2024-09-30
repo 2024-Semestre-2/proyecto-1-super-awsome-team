@@ -171,11 +171,55 @@ public class SecondaryMemory {
         }
     }
   }
-  
+  public void removeFirstFile() {
+        // Verificar si hay archivos en la memoria secundaria
+        if (!fileIndex.isEmpty()) {
+            // Obtener el primer archivo en la cola
+            String firstFile = fileIndex.keySet().iterator().next();
+            // Obtener la dirección de memoria del archivo
+            int address = fileIndex.get(firstFile);
+            
+            // Eliminar el archivo del índice
+            fileIndex.remove(firstFile);
+            
+            // Eliminar el contenido del archivo de la memoria secundaria
+            memoryArray[address] = null;
+    
+            // Reorganizar la memoria
+            for (int i = address + 1; i < nextAddress; i++) {
+                memoryArray[i - 1] = memoryArray[i]; // Mover archivo a la dirección anterior
+                memoryArray[i] = null; // Limpiar la dirección actual
+            }
+            
+            // Actualizar la próxima dirección disponible en memoria secundaria
+            nextAddress--;
+    
+            System.out.println("El archivo " + firstFile + " ha sido eliminado de la memoria secundaria.");
+            
+        } else {
+            System.out.println("No hay archivos en la memoria secundaria para eliminar.");
+        }}
   public Map<String, Integer> getFileIndex() {
     return this.fileIndex; // Devuelve el índice de archivos almacenados
   }
-  
+  //  retorna tamaño del array 
+  public int LengArray(){ 
+    return fileIndex.size();     
+  } 
+public List<Expression> getFirstFileContent() {
+        // Verificar si hay archivos en la memoria secundaria
+        if (!fileIndex.isEmpty()) {
+            // Obtener el primer archivo en la cola
+            String firstFile = fileIndex.keySet().iterator().next();
+            
+
+            // Recuperar el contenido del archivo desde la memoria
+            return (List<Expression>) retrieve(firstFile);
+        } else {
+            System.out.println("No hay archivos en la memoria secundaria.");
+            return null;
+        }
+    }
   public Object[] getMemoryArray() {
     return this.memoryArray; // Devuelve todo el array de la memoria secundaria
   }

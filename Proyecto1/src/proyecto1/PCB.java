@@ -171,7 +171,21 @@ public class PCB {
     public int sp() {
         return this.SP;
     }
-    
+     public int  getProgramCodeSize() {
+        return this.programCodeSize;
+    }
+    public int getProgramCodeIndex() {
+        return this.programCodeIndex;
+    }
+    public int getId (){
+        return this.ID;
+    }
+    public int getStackSegmentIndex() {
+        return this.stackSegmentIndex;
+    }
+    public int getSegmentStackSize() {
+        return this.stackSegmentSize;
+    }
     @Override
     public String toString(){
         return " Proccess ID: "+this.ID+" Priority: "+this.priority+" State: "+this.state+" AC: "+this.AC+" AX: "+this.AX+" BX: "+this.BX+" CX: "+this.CX+" DX: "+this.DX+" Z: "+this.Z+" PC: "+ this.PC +" IR: "+this.IR.operation + " Elapsed Time: " + getElapsedTimeMillis() + " ms";

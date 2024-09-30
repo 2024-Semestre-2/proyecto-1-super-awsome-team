@@ -7,6 +7,7 @@ package proyecto1;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -309,41 +310,45 @@ public class UI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenFileActionPerformed
-      int returnVal = jFileChooserAsm.showOpenDialog(this);
+       int returnVal = jFileChooserAsm.showOpenDialog(this);
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         File[] files = jFileChooserAsm.getSelectedFiles();
-        try {
-            
+        try {           
             // Load to secondary memory
             this.kernel.load(files);
-            
-            
             // Select file  Section 
             int response = JOptionPane.showConfirmDialog(this,"¿Desea continuar con el procesamiento de los archivos cargados?", 
-            "Confirmación", JOptionPane.YES_NO_OPTION);
+            "Confirmación", JOptionPane.YES_NO_OPTION);  
             
             if (response == JOptionPane.YES_OPTION) {
                 System.out.println("Cargando");
-                // Load to memory
                 
-                this.kernel.loadToMemory(files[0]);
-            
-                // Scheduler
-                Pair pair = this.kernel.scheduler();
-            
-                // Dispatcher
-                PCB pcb = this.kernel.distpacher(pair);
-            
-                // Execution
-                //this.kernel.execute(pcb);
-                this.kernel.initExecution(pcb);
-                ActionListener aL = new ActionListener() {
+              for(int i = 0; i < this.kernel.sizeIndex(); i++) {
+                List<Expression> firstFileContent = kernel.getSecondaryMemory().getFirstFileContent();
+                if (firstFileContent != null) {
+                  // Load to memory   
+                  this.kernel.loadToMemory(firstFileContent);
+                  
+                  // Scheduler
+                  Pair pair = this.kernel.scheduler();
+              
+                  // Dispatcher
+                  PCB pcb = this.kernel.distpacher(pair);
+                
+
+                  // Execution
+                  this.kernel.initExecution(pcb);
+                  ActionListener aL = new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent ae) {
                         if (!pcb.reachedEnd()) {
                             kernel.nextExecution(pcb);
                         } else {
                             pcb.updateState("terminated");
+                             System.out.println("Se termino de evaluar archivo");
+                                    kernel.liberaMemor(pcb.programCodeIndex(),pcb.getProgramCodeSize()); // Liberar memoria principal
+                                    kernel.liberaMemor(pcb.getStackSegmentIndex(),pcb.getSegmentStackSize()); // liberar stack
+                                    kernel.removeSecundaryMemo();  // Eliminar archivo de la memoria secundaria
                         }
                         jTextFieldAC.setText(String.valueOf(kernel.ac()));
                         jTextFieldAX.setText(String.valueOf(kernel.ax()));
@@ -357,19 +362,21 @@ public class UI extends javax.swing.JFrame {
                             
                         DefaultListModel<String> listModel = new DefaultListModel<>();
                         listModel.addAll(kernel.getMemoryArray());
-                            
+                        jListMemory.setModel( listModel );   
+                        
                         DefaultListModel<String> listModel2 = new DefaultListModel<>();
-                        listModel.addAll(kernel.getSecMemoryArray());
-                            
-                        jListMemory.setModel( listModel );
+                        listModel.addAll(kernel.getSecMemoryArray());         
                         jListMemory2.setModel( listModel2 );
-                    }
-                };
-                
-                this.controller = new Timer(1110, aL);//create the timer which calls the actionperformed method for every 1000 millisecond(1 second=1000 millisecond)
-                this.controller.setRepeats(true);
-                this.controller.start();
-                
+                    }                     
+                  };               
+                  this.controller = new Timer(1110, aL);//create the timer which calls the actionperformed method for every 1000 millisecond(1 second=1000 millisecond)
+                  this.controller.setRepeats(true);
+                  this.controller.start();
+                }
+                System.out.println("Se termino de evaluar archivo");
+                this.kernel.removeSecundaryMemo();  
+              }    
+
             } else {
                 JOptionPane.showMessageDialog(this, "Puede cargar más archivos antes de proceder.", 
                 "Cargar más archivos",JOptionPane.INFORMATION_MESSAGE);
