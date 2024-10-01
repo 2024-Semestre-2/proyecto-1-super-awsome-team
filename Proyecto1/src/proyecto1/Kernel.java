@@ -109,7 +109,7 @@ public class Kernel {
     }
     
     public List<String> getSecMemoryArray() {
-        System.out.println("Sss"+ sMemory.getMemoryArrayDisplay());
+        //System.out.println("Sss"+ sMemory.getMemoryArrayDisplay());
         return this.sMemory.getMemoryArrayDisplay();
         
     }

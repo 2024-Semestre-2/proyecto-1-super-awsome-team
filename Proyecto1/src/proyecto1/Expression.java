@@ -20,4 +20,8 @@ public class Expression {
         this.operation = operation;
         this.operands = operands;
     }
+    
+    public String toString() {
+        return "Línea: " + row + ", Dirección: " + address + ", Operación: " + operation + ", Operandos: " + String.join(", ", operands);
+    }
 }

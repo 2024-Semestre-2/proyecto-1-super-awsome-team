@@ -324,7 +324,9 @@ public class UI extends javax.swing.JFrame {
             if (response == JOptionPane.YES_OPTION) {
                 System.out.println("Cargando");
                 
-              for(int i = 0; i < this.kernel.sizeIndex(); i++) {
+              for(int i = 1; i < this.kernel.sizeIndex(); i++) {
+                  
+                //System.out.println("\ni:"+ i+ "cap " + this.kernel.sizeIndex());
                 List<Expression> firstFileContent = kernel.getSecondaryMemory().getFirstFileContent();
                 if (firstFileContent != null) {
                   // Load to memory   
@@ -346,10 +348,15 @@ public class UI extends javax.swing.JFrame {
                             kernel.nextExecution(pcb);
                         } else {
                             pcb.updateState("terminated");
-                             System.out.println("Se termino de evaluar archivo");
-                                    kernel.liberaMemor(pcb.programCodeIndex(),pcb.getProgramCodeSize()); // Liberar memoria principal
-                                    kernel.liberaMemor(pcb.getStackSegmentIndex(),pcb.getSegmentStackSize()); // liberar stack
-                                    kernel.removeSecundaryMemo();  // Eliminar archivo de la memoria secundaria
+                            System.out.println("State Terminated");
+                            kernel.liberaMemor(pcb.programCodeIndex(),pcb.getProgramCodeSize()); // Liberar memoria principal
+                            kernel.liberaMemor(pcb.getStackSegmentIndex(),pcb.getSegmentStackSize()); // liberar stack
+                      
+                            kernel.removeSecundaryMemo();  // Eliminar archivo de la memoria secundaria
+                           
+                            
+                            controller.stop();
+                       
                         }
                         jTextFieldAC.setText(String.valueOf(kernel.ac()));
                         jTextFieldAX.setText(String.valueOf(kernel.ax()));
@@ -365,10 +372,16 @@ public class UI extends javax.swing.JFrame {
                         listModel.addAll(kernel.getMemoryArray());
                         jListMemory.setModel( listModel );   
                         
-                        DefaultListModel<String> listModel2 = new DefaultListModel<>();                       
+                        List<String> secMemoryArray = kernel.getSecMemoryArray();
+                        //System.out.println("Contenido de la memoria secundaria (como String): " + secMemoryArray);
+                        
+                        DefaultListModel<String> listModel2 = new DefaultListModel<>();                     
                         listModel2.addAll(kernel.getSecMemoryArray());         
-                        jListMemory2.setModel( listModel2 );
-                        System.out.println("Probanddo "+ listModel2);
+                        
+                      
+
+                        // Establecer el modelo en el JList para que cada expresión se muestre una por una
+                        jListMemory2.setModel(listModel2);
                     }                     
                   };               
                   this.controller = new Timer(1110, aL);//create the timer which calls the actionperformed method for every 1000 millisecond(1 second=1000 millisecond)
@@ -376,7 +389,6 @@ public class UI extends javax.swing.JFrame {
                   this.controller.start();
                 }
                 System.out.println("Se termino de evaluar archivo");
-                this.kernel.removeSecundaryMemo();  
               }    
 
             } else {

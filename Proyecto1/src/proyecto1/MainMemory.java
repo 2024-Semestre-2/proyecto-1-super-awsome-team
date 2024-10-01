@@ -49,7 +49,7 @@ public class MainMemory {
     
     public int malloc(int size) {
         if (this.nextUserSegmentAddress + size > userSegmentSize) {
-            throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address, not enough space in user memory");
+            throw new IllegalArgumentException("1 Attempt to access OS segment or out-of-bounds memory address, not enough space in user memory");
         }
         int address = nextUserSegmentAddress;
         this.nextUserSegmentAddress += size;
@@ -59,10 +59,10 @@ public class MainMemory {
     
     public void loadInstructionsAt(int address, int size, List<Expression> instructions) {
         if (size < instructions.size()) {
-            throw new IllegalArgumentException("Attempt to access out-of-bounds memory address");
+            throw new IllegalArgumentException("2 Attempt to access out-of-bounds memory address");
         }
         if (address + size > userSegmentSize) {
-            throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address, not enough space in user memory");
+            throw new IllegalArgumentException("3 Attempt to access OS segment or out-of-bounds memory address, not enough space in user memory");
         }
         
         for (int i = 0; i < instructions.size(); i++) {
@@ -78,7 +78,7 @@ public class MainMemory {
             address--;
         }
         else {
-            throw new IllegalArgumentException("Attempt to access out-of-bounds memory address");
+            throw new IllegalArgumentException("4 Attempt to access out-of-bounds memory address");
         }
         
         return address;
@@ -90,7 +90,7 @@ public class MainMemory {
             result = (int) memoryArray[address];
         }
         else {
-            throw new IllegalArgumentException("Attempt to access out-of-bounds memory address");
+            throw new IllegalArgumentException("5 Attempt to access out-of-bounds memory address");
         }
         
         return result;
@@ -98,7 +98,7 @@ public class MainMemory {
     
     public void loadInstruction(String opcode, String operation, String[] operands) {
         if (this.nextUserSegmentAddress > userSegmentSize) {
-            throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address, not enough space in user memory");
+            throw new IllegalArgumentException("6 Attempt to access OS segment or out-of-bounds memory address, not enough space in user memory");
         }
         memoryArray[this.nextUserSegmentAddress] = new Instruction(opcode, operation, operands, this.nextUserSegmentAddress);
         this.nextUserSegmentAddress++;
@@ -106,15 +106,16 @@ public class MainMemory {
     
     public Instruction getInstruction(int address) {
         if (address > userSegmentSize) { 
-            throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address");
+            throw new IllegalArgumentException("7 Attempt to access OS segment or out-of-bounds memory address");
         } else {
             return (Instruction) this.memoryArray[address];
         }
     }
     
     public PCB getProcess(int address) {
+        //System.out.println("Comparamos con:"+address+" con:"+userSegmentSize);
         if (address > userSegmentSize) { 
-            throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address");
+            throw new IllegalArgumentException("8 Attempt to access OS segment or out-of-bounds memory address");
         } else {
             return (PCB) this.memoryArray[address];
         }
@@ -123,6 +124,7 @@ public class MainMemory {
     public void loadProcess(PCB process) {
         System.out.println("Evaluamos:"+this.nextOsSegmentAddress+" Con:"+memorySize);
         if (this.nextOsSegmentAddress > memorySize) {
+            
             throw new IllegalArgumentException("Out-of-bounds memory address, not enough space in OS memory");
         }
         // Include the memory address on the pcb

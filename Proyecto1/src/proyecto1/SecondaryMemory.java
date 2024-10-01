@@ -198,7 +198,8 @@ public class SecondaryMemory {
             
         } else {
             System.out.println("No hay archivos en la memoria secundaria para eliminar.");
-        }}
+        }
+  }
   public Map<String, Integer> getFileIndex() {
     return this.fileIndex; // Devuelve el índice de archivos almacenados
   }
@@ -234,6 +235,9 @@ public List<Expression> getFirstFileContent() {
   }
   
   public List<String> getMemoryArrayDisplay() {
-        return Arrays.asList(this.memoryArray).stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
+    return Arrays.stream(this.memoryArray)
+                 .filter(Objects::nonNull)  // Filtra los elementos que no son nulos
+                 .map(Objects::toString)     // Convierte los objetos a String
+                 .collect(Collectors.toList());  // Recoge el resultado en una lista
     }
 }
