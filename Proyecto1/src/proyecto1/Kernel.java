@@ -149,7 +149,10 @@ public class Kernel {
         // Load registers from pcb
         this.cpu.updateRegisters(pcb.ax(), pcb.bx(), pcb.cx(), pcb.dx(), pcb.ac(), pcb.pc(), pcb.sp(), pcb.z(), pcb.ir());
     }
-    
+    // get memory 
+    public MainMemory getMainMemory() {
+        return this.memory;
+    }
     public void nextExecution(PCB pcb) {
         if (!pcb.reachedEnd()) {
             // Fetch

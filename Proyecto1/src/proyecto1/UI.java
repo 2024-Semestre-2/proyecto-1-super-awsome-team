@@ -315,7 +315,7 @@ public class UI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenFileActionPerformed
-       int returnVal = jFileChooserAsm.showOpenDialog(this);
+        int returnVal = jFileChooserAsm.showOpenDialog(this);
       if (returnVal == JFileChooser.APPROVE_OPTION) {
         File[] files = jFileChooserAsm.getSelectedFiles();
         try {           
@@ -421,6 +421,7 @@ public class UI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItemOpenFileActionPerformed
 
+    
     /**
      * Metodo encargado de dar funcionalidad en display de configuraciones 
      * @param evt 

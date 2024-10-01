@@ -149,13 +149,27 @@ public class MainMemory {
       }
       System.out.println("Memory freed from address " + address + " to " + (address + size));
     }
-    
+    //consigue el segmento del usuario 
+    public int getUserSegmentSize() {
+        return this.userSegmentSize;
+    }
     public List<String> getMemoryArray() {
         return Arrays.asList(this.memoryArray).stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
     }
     
     public int getNextProcessId() {
         return processCounter++;
+    }
+    public void resetUserMemory() {
+        // Resetea el puntero de la memoria de usuario
+        this.nextUserSegmentAddress = 0;  // Reinicia la dirección de memoria del usuario
+        
+        // Opcional: limpiar la memoria del usuario si deseas que los valores anteriores sean eliminados
+        for (int i = 0; i < this.userSegmentSize; i++) {
+            this.memoryArray[i] = null;  // Limpia la parte de la memoria del usuario
+        }
+        
+        System.out.println("Memoria de usuario reseteada.");
     }
     
     public int instructionAddresSize() {
