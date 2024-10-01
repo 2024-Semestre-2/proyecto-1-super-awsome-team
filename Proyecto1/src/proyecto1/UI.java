@@ -113,6 +113,11 @@ public class UI extends javax.swing.JFrame {
         });
 
         Statistics.setText("Statistics");
+        Statistics.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatisticsActionPerformed(evt);
+            }
+        });
 
         jLabelRegister.setText("Registers");
 
@@ -338,7 +343,8 @@ public class UI extends javax.swing.JFrame {
                   // Dispatcher
                   PCB pcb = this.kernel.distpacher(pair);
                 
-
+                  // Inicio del proceso
+                  //pcb.updateState("ready");  // Registramos la hora de inicio
                   // Execution
                   this.kernel.initExecution(pcb);
                   ActionListener aL = new ActionListener() {
@@ -347,8 +353,13 @@ public class UI extends javax.swing.JFrame {
                         if (!pcb.reachedEnd()) {
                             kernel.nextExecution(pcb);
                         } else {
+                            // Registrar el tiempo de finalización
                             pcb.updateState("terminated");
                             System.out.println("State Terminated");
+                            
+                     
+                            
+                            
                             kernel.liberaMemor(pcb.programCodeIndex(),pcb.getProgramCodeSize()); // Liberar memoria principal
                             kernel.liberaMemor(pcb.getStackSegmentIndex(),pcb.getSegmentStackSize()); // liberar stack
                       
@@ -356,6 +367,12 @@ public class UI extends javax.swing.JFrame {
                            
                             
                             controller.stop();
+                            
+                            // Imprimir los tiempos de inicio, fin y duración
+                            System.out.println("Tiempo de ejecución del proceso:");
+                            System.out.println("Hora de inicio: " + pcb.getFormattedStartTime());
+                            System.out.println("Hora de finalización: " + pcb.getFormattedEndTime());
+                            System.out.println("Duración total: " + pcb.getElapsedMinutes() + " minutos y " + pcb.getElapsedSeconds() % 60 + " segundos");
                        
                         }
                         jTextFieldAC.setText(String.valueOf(kernel.ac()));
@@ -377,8 +394,7 @@ public class UI extends javax.swing.JFrame {
                         
                         DefaultListModel<String> listModel2 = new DefaultListModel<>();                     
                         listModel2.addAll(kernel.getSecMemoryArray());         
-                        
-                      
+     
 
                         // Establecer el modelo en el JList para que cada expresión se muestre una por una
                         jListMemory2.setModel(listModel2);
@@ -388,7 +404,6 @@ public class UI extends javax.swing.JFrame {
                   this.controller.setRepeats(true);
                   this.controller.start();
                 }
-                System.out.println("Se termino de evaluar archivo");
               }    
 
             } else {
@@ -462,6 +477,32 @@ public class UI extends javax.swing.JFrame {
         jListMemory.setModel( listModel );
         jListMemory2.setModel( listModel2 );
     }//GEN-LAST:event_CleanActionPerformed
+
+    private void StatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatisticsActionPerformed
+        // Obtener la lista de todos los PCBs
+       List<PCB> pcbList = kernel.getPCBList();  // Asegúrate de tener este método en tu clase Kernel
+
+       if (!pcbList.isEmpty()) {
+           StringBuilder message = new StringBuilder();
+
+           // Iterar sobre la lista de PCBs y obtener las estadísticas de cada uno
+           for (PCB pcb : pcbList) {
+               String startTime = pcb.getFormattedStartTime();
+               String endTime = pcb.getFormattedEndTime();
+               long minutes = pcb.getElapsedMinutes();
+               long seconds = pcb.getElapsedSeconds() % 60;
+
+               // Construir el mensaje para cada proceso
+               message.append(String.format("Proceso ID: %d\nHora de inicio: %s\nHora de finalización: %s\nDuración: %d minutos y %d segundos\n\n",
+                                             pcb.id(), startTime, endTime, minutes, seconds));
+           }
+
+           // Mostrar las estadísticas en un cuadro de diálogo
+           JOptionPane.showMessageDialog(null, message.toString(), "Estadísticas de los procesos", JOptionPane.INFORMATION_MESSAGE);
+       } else {
+           JOptionPane.showMessageDialog(null, "No hay procesos ejecutados", "Estadísticas", JOptionPane.WARNING_MESSAGE);
+       }
+    }//GEN-LAST:event_StatisticsActionPerformed
 
     /**
      * @param args the command line arguments

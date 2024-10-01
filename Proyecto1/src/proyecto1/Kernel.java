@@ -5,6 +5,7 @@
 package proyecto1;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,13 +17,14 @@ public class Kernel {
     public SecondaryMemory sMemory;
     private CPU cpu;
     private int processCounter;
-    
+    private List<PCB> pcbList;  // Lista de todos los PCBs
     
     public Kernel(Config config) {
         this.cpu = new CPU();
         this.memory = new MainMemory(config.mainMemorySize, config.userSegmentSize, config.osSegmentSize);
         this.sMemory = new SecondaryMemory(config.secondaryMemorySize, config.virtualMemorySize);
         this.processCounter = 0;
+        this.pcbList = new ArrayList<>();  
     }
     
     public Pair scheduler() {
@@ -47,13 +49,19 @@ public class Kernel {
         return result;
     }
     
+    
+    // Método dispatcher modificado para almacenar el PCB en la lista
     public PCB distpacher(Pair pair) {
         PCB pcb = this.memory.getProcess(pair.memoryAddress);
         pcb.updateState("running");
-        
+        this.pcbList.add(pcb);  // Agregar el PCB a la lista cuando se despacha
         return pcb;
     }
-    
+
+    // Método para obtener la lista de todos los PCBs
+    public List<PCB> getPCBList() {
+        return this.pcbList;
+    }
     public void load(File[] files) {                                
         for (File file : files) { //(int i = 0; i < files.length; i++)                     
             AsmLoader loader = new AsmLoader();

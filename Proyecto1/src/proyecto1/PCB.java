@@ -6,6 +6,9 @@ package proyecto1;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
@@ -30,6 +33,7 @@ public class PCB {
     
     // Times
     private Instant startTime;    // Tiempo de inicio
+    private Instant endTime;      // Tiempo de finalización
     private Duration elapsedTime; // Tiempo empleado en ejecución
     
     // Process State
@@ -101,25 +105,52 @@ public class PCB {
 
     // Actualiza el estado y registra el tiempo de inicio si el proceso empieza a ejecutarse
     public void updateState(String state) {
-      if (Objects.equals(this.state, "ready") && Objects.equals(state, "running")) {
-        this.startTime = Instant.now(); // Registra el tiempo de inicio
-        this.PC = this.programCodeSize;
+      if (state.equals("running") && !Objects.equals(this.state, "running")) {
+        this.startTime = Instant.now(); // Registra el tiempo de inicio    
       } 
-      else if (Objects.equals(this.state, "running") && !Objects.equals(state, "running")) {
+      else if (state.equals("terminated")) {
+        System.out.println("\n Se finaliza");
         // Si el proceso deja de estar en ejecución, calcula el tiempo transcurrido
         if (this.startTime != null) {
+           
           Duration timeSpent = Duration.between(this.startTime, Instant.now());
           this.elapsedTime = this.elapsedTime.plus(timeSpent); // Acumula el tiempo empleado
+          this.endTime = Instant.now(); // Registra el tiempo de finalización
+          
         }
       }
       this.state = state;
     }
-    
     // Retorna el tiempo empleado en ejecución en milisegundos
     public long getElapsedTimeMillis() {
       return this.elapsedTime.toMillis();
     }
+    // Retorna el tiempo empleado en ejecución en segundos
+    public long getElapsedSeconds() {
+        return this.elapsedTime.getSeconds(); // Retorna la duración en segundos
+    }
+
     
+    public long getElapsedMinutes() {
+      return this.elapsedTime.toMinutes(); // Retorna la duración en minutos
+    }
+    
+    public String getFormattedStartTime() {
+        return formatInstantToTime(this.startTime);
+    }
+    
+    public String getFormattedEndTime() {
+        return formatInstantToTime(this.endTime);
+    }
+    // Método auxiliar para formatear los Instants a hora:minutos
+    private String formatInstantToTime(Instant instant) {
+        if (instant == null) {
+            return "N/A"; // Si no se ha registrado aún
+        }
+        LocalDateTime localTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm"); // Formato hora:minutos
+        return localTime.format(formatter);
+    }
     public int getBaseStack() {
         return this.stackSegmentIndex;
     }
