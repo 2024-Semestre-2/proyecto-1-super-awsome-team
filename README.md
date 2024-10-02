@@ -5,5 +5,4 @@
 ### 2016135864 Ian Joel Wright Arce
 
 ### Estado del proyecto: 3
-### Enlace del video: (Si esto fue solicitado)
-
+### Enlace del video: https://youtu.be/T5FAWN0yKms
